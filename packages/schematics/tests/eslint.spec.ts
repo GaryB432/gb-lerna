@@ -19,7 +19,7 @@ describe('package', () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const tree = await runner.runSchematicAsync('eslint', {}, seedTree).toPromise();
 
-    expect(tree.files).toEqual(['/package.json', '/.eslintrc.js']);
+    expect(tree.files).toEqual(['/package.json', '/.eslintrc']);
 
     const packageJson: IPackageJson = getFromJsonFile(tree, 'package.json');
     packageJson.devDependencies = packageJson.devDependencies || {};
