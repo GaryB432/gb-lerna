@@ -6,7 +6,7 @@ node_js:
   - '14'
 before_script:
   - npm install lerna -g
-  - lerna boostrap --hoist
+  - lerna bootstrap --hoist
 script:
   - npm test
   - lerna run build
