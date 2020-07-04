@@ -9,15 +9,15 @@ import {
   Rule,
   SchematicContext,
   Tree,
-  url
+  url,
 } from '@angular-devkit/schematics';
 import { getFromJsonFile, IPackageJson } from '../utils';
 
-export default function (_options: any): Rule {
+export default function (): Rule {
   const templatedSource = apply(url('./files'), [applyTemplates({ ...strings })]);
 
   return (tree: Tree, context: SchematicContext) => {
-   const packageJson = getFromJsonFile<IPackageJson>(tree, 'package.json');
+    const packageJson = getFromJsonFile<IPackageJson>(tree, 'package.json');
 
     packageJson.devDependencies = packageJson.devDependencies || {};
     packageJson.scripts = packageJson.scripts || {};

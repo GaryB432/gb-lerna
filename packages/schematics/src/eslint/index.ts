@@ -13,7 +13,7 @@ import {
 } from '@angular-devkit/schematics';
 import { IPackageJson, getFromJsonFile } from '../utils';
 
-export default function (_options: any): Rule {
+export default function (): Rule {
   const templatedSource = apply(url('./files'), [applyTemplates({ ...strings })]);
 
   return (tree: Tree, context: SchematicContext) => {

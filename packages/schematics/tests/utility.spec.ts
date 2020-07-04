@@ -2,7 +2,7 @@ import { getPackageInfo } from '../src/utils';
 
 describe('Utilities', () => {
   it('handles scope', () => {
-    expect(getPackageInfo('@SomePackage/asdf')).toEqual({ scope: 'some-package', name: 'asdf' });
+    expect(getPackageInfo('@SomePackage/asdf')).toEqual({ name: 'asdf', scope: 'some-package' });
   });
   it('handles no scope', () => {
     expect(getPackageInfo('asdf')).toEqual({ name: 'asdf' });
