@@ -29,8 +29,8 @@ export default function (): Rule {
     packageJson.devDependencies['eslint-plugin-prettier'] = '^3.1.4';
 
     packageJson.scripts = packageJson.scripts || {};
-    packageJson.scripts['lint'] =
-      'eslint "packages/**/{src,tests}/**/*.ts" -f eslint-formatter-friendly';
+    packageJson.scripts['posttest'] =
+      'eslint "./packages/**/src/**/*.ts" --config .eslintrc';
 
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
 

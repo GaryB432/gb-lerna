@@ -17,7 +17,7 @@
   },
   "scripts": {
     "test": "jest",
-    "posttest": "eslint . --ext .ts --config .eslintrc",
+    "posttest": "eslint \"./packages/**/src/**/*.ts\" --config .eslintrc",
     "format": "prettier --write \"**/*.ts\"  \"!**/lib/**\""
   },
   "dependencies": {
