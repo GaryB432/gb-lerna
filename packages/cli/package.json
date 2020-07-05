@@ -1,0 +1,31 @@
+{
+  "author": "",
+  "description": "",
+  "devDependencies": {
+    "@types/inquirer": "0.0.44",
+    "typescript": "^3.7.2"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "license": "ISC",
+  "main": "lib/index.js",
+  "name": "@gb-lerna/cli",
+  "private": false,
+  "scripts": {
+    "build": "tsc --pretty",
+    "prepare": "npm run build"
+  },
+  "typings": "lib/index.d.ts",
+  "version": "0.0.0",
+  "dependencies": {
+    "@angular-devkit/core": "^10.0.1",
+    "@angular-devkit/schematics": "^10.0.1",
+    "@schematics/schematics": "^0.1000.1",
+    "inquirer": "^7.3.0",
+    "minimist": "^1.2.5",
+    "rxjs": "^6.6.0",
+    "symbol-observable": "^1.2.0"
+  }
+}
