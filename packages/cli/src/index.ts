@@ -270,14 +270,14 @@ export async function main({
    */
   try {
     // console.log(parsedArgs, 'parsedArgs');
-    const { name, independent, packageName } = argv;
+    const { independent, name, packageName } = argv;
     await workflow
       .execute({
         allowPrivate: false,
         collection: '@gb-lerna/schematics',
         debug: false,
         logger: logger,
-        options: { name, independent, packageName },
+        options: { independent, name, packageName },
         schematic: argv._[0],
       })
       .toPromise();
