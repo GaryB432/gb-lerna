@@ -32,6 +32,7 @@
   "dependencies": {
     "@angular-devkit/core": "^10.0.1",
     "@angular-devkit/schematics": "^10.0.1",
+    "@gb-lerna/schematics": "^0.3.0",
     "@schematics/schematics": "^0.1000.1",
     "inquirer": "^7.3.0",
     "minimist": "^1.2.5",

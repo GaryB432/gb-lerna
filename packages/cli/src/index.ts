@@ -374,11 +374,13 @@ function parseArgs(args: string[] | undefined): minimist.ParsedArgs {
   });
 }
 
-if (require.main === module) {
-  const args = process.argv.slice(2);
-  main({ args })
-    .then((exitCode) => (process.exitCode = exitCode))
-    .catch((e) => {
-      throw e;
-    });
-}
+console.log('not yet implemented');
+
+// if (require.main === module) {
+//   const args = process.argv.slice(2);
+//   main({ args })
+//     .then((exitCode) => (process.exitCode = exitCode))
+//     .catch((e) => {
+//       throw e;
+//     });
+// }
