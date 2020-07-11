@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "GbLernaSchematicsRepo",
+  "title": "GB Lerna Repository Options Schema",
+  "type": "object",
+  "description": "Creates a new monorepo structure.",
+  "properties": {
+    "packageName": {
+      "type": "string",
+      "description": "The name of the first package.",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "independent": {
+      "type": "boolean",
+      "description": "Version package independently",
+      "default": false,
+      "alias": "i",
+      "x-prompt": "Version packages independently?"
+    }
+  }
+}
