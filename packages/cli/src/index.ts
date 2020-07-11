@@ -19,12 +19,7 @@ import {
 import * as inquirer from 'inquirer';
 import * as minimist from 'minimist';
 
-const terminal = {
-  white: (s: string) => s,
-  green: (s: string) => s,
-  yellow: (s: string) => s,
-  blue: (s: string) => s,
-};
+import * as colors from 'colors/safe';
 
 /**
  * Parse the name of schematic passed in argument, and return a {collection, schematic} named
@@ -203,20 +198,20 @@ export async function main({
         break;
       case 'update':
         loggingQueue.push(tags.oneLine`
-        ${terminal.white('UPDATE')} ${eventPath} (${event.content.length} bytes)
+        ${colors.white('UPDATE')} ${eventPath} (${event.content.length} bytes)
       `);
         break;
       case 'create':
         loggingQueue.push(tags.oneLine`
-        ${terminal.green('CREATE')} ${eventPath} (${event.content.length} bytes)
+        ${colors.green('CREATE')} ${eventPath} (${event.content.length} bytes)
       `);
         break;
       case 'delete':
-        loggingQueue.push(`${terminal.yellow('DELETE')} ${eventPath}`);
+        loggingQueue.push(`${colors.yellow('DELETE')} ${eventPath}`);
         break;
       case 'rename':
         const eventToPath = event.to.startsWith('/') ? event.to.substr(1) : event.to;
-        loggingQueue.push(`${terminal.blue('RENAME')} ${eventPath} => ${eventToPath}`);
+        loggingQueue.push(`${colors.blue('RENAME')} ${eventPath} => ${eventToPath}`);
         break;
     }
   });
