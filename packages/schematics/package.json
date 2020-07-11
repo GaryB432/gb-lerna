@@ -1,17 +1,34 @@
 {
   "name": "@gb-lerna/schematics",
   "version": "0.0.0",
+  "author": {
+    "name": "Gary Bortosky",
+    "url": "https://github.com/GaryB432"
+  },
   "files": [
     "lib"
   ],
-  "keywords": [],
+  "keywords": [
+    "lerna",
+    "monorepo",
+    "typescript",
+    "schematics"
+  ],
   "license": "ISC",
   "scripts": {
     "copy": "cpx src/{collection.json,**/schema.json,**/files/**/*,**/files/**/.*} lib ",
     "build": "tsc --pretty && npm run copy",
     "prepare": "npm run build"
   },
-  "schematics": "lib/collection.json",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GaryB432/gb-lerna.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GaryB432/gb-lerna/issues"
+  },
+  "homepage": "https://github.com/GaryB432/gb-lerna/tree/master/packages/schematics",
+  "schematics": "./lib/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^10.0.1",
     "@angular-devkit/schematics": "^10.0.1"
@@ -20,5 +37,7 @@
     "cpx": "^1.5.0",
     "typescript": "^3.9.6"
   },
-  "engines" : { "node" : ">=10 <=14" } 
+  "engines": {
+    "node": ">=10 <=14"
+  }
 }
