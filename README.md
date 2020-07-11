@@ -9,5 +9,6 @@ create and maintain lerna monorepo using typescript
 
 | Project | Package | Version | Links |
 |---|---|---|---|
+**cli** | [`CLI`](https://npmjs.com/package/@gb-lerna/cli) | [![latest](https://img.shields.io/npm/v/@gb-lerna/cli/latest.svg)](https://npmjs.com/package/@gb-lerna/cli) | [![README](https://img.shields.io/badge/README--green.svg)](/packages/cli/README.md) 
 **schematics** | [`Schematics`](https://npmjs.com/package/@gb-lerna/schematics) | [![latest](https://img.shields.io/npm/v/@gb-lerna/schematics/latest.svg)](https://npmjs.com/package/@gb-lerna/schematics) | [![README](https://img.shields.io/badge/README--green.svg)](/packages/schematics/README.md) 
  
