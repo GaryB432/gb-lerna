@@ -1,16 +1,9 @@
 #!/usr/bin/env node
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 
 // symbol polyfill must go first
 import 'symbol-observable';
 // tslint:disable-next-line:ordered-imports import-groups
-import { JsonObject, logging, normalize, schema, tags, virtualFs } from '@angular-devkit/core';
+import { logging, normalize, schema, tags, virtualFs } from '@angular-devkit/core';
 import { NodeJsSyncHost, ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node';
 import {
   DryRunEvent,
@@ -129,7 +122,7 @@ export async function main({
 }: MainOptions): Promise<0 | 1> {
   // console.log(args);
   const argv = parseArgs(args);
-  // console.log(argv);
+  console.log(argv);
 
   /** Create the DevKit Logger used through the CLI. */
   const logger = createConsoleLogger(argv['verbose'], stdout, stderr);
@@ -246,29 +239,29 @@ export async function main({
   /**
    * Remove every options from argv that we support in schematics itself.
    */
-  const parsedArgs = Object.assign({}, argv);
-  delete parsedArgs['--'];
-  for (const key of booleanArgs) {
-    delete parsedArgs[key];
-  }
+  // const parsedArgs = Object.assign({}, argv);
+  // delete parsedArgs['--'];
+  // for (const key of booleanArgs) {
+  //   delete parsedArgs[key];
+  // }
 
   /**
    * Add options from `--` to args.
    */
-  const argv2 = minimist(argv['--']);
-  for (const key of Object.keys(argv2)) {
-    parsedArgs[key] = argv2[key];
-  }
+  // const argv2 = minimist(argv['--']);
+  // for (const key of Object.keys(argv2)) {
+  //   parsedArgs[key] = argv2[key];
+  // }
 
   // Pass the rest of the arguments as the smart default "argv". Then delete it.
-  workflow.registry.addSmartDefaultProvider('argv', (schema: JsonObject) => {
-    if ('index' in schema) {
-      return argv._[Number(schema['index'])];
-    } else {
-      return argv._;
-    }
-  });
-  delete parsedArgs._;
+  // workflow.registry.addSmartDefaultProvider('argv', (schema: JsonObject) => {
+  //   if ('index' in schema) {
+  //     return argv._[Number(schema['index'])];
+  //   } else {
+  //     return argv._;
+  //   }
+  // });
+  // delete parsedArgs._;
 
   // Add prompts.
   workflow.registry.usePromptProvider(_createPromptProvider());
@@ -282,17 +275,16 @@ export async function main({
    *  when everything is done.
    */
   try {
-    console.log(parsedArgs, 'parsedArgs');
+    // console.log(parsedArgs, 'parsedArgs');
+    const { name, independent } = argv;
     await workflow
       .execute({
         allowPrivate: false,
         collection: '@gb-lerna/schematics',
         debug: false,
         logger: logger,
-        // options: parsedArgs,
-        options: { name: parsedArgs.name }, // lists
-        // options: { name: 'tbd'},
-        schematic: 'package',
+        options: { name, independent },
+        schematic: argv._[0],
       })
       .toPromise();
 
@@ -356,20 +348,18 @@ const booleanArgs = [
   'help',
   'list-schematics',
   'listSchematics',
+  'independent',
   'verbose',
 ];
 
 function parseArgs(args: string[] | undefined): minimist.ParsedArgs {
   return minimist(args, {
-    '--': true,
+    '--': false,
     alias: {
-      allowPrivate: 'allow-private',
       dryRun: 'dry-run',
-      listSchematics: 'list-schematics',
     },
     boolean: booleanArgs,
     default: {
-      debug: null,
       dryRun: null,
     },
   });
