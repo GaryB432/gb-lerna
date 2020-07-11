@@ -1,0 +1,42 @@
+{
+  "name": "@gb-lerna/cli",
+  "version": "0.4.0",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GaryB432/gb-lerna.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GaryB432/gb-lerna/issues"
+  },
+  "homepage": "https://github.com/GaryB432/gb-lerna/tree/master/packages/cli",
+  "author": "",
+  "devDependencies": {
+    "@types/inquirer": "0.0.44",
+    "typescript": "^3.7.2"
+  },
+  "bin": {
+    "gb-lerna": "./lib/index.js"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "license": "ISC",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc --pretty",
+    "prepare": "npm run build"
+  },
+  "typings": "lib/index.d.ts",
+  "dependencies": {
+    "@angular-devkit/core": "^10.0.1",
+    "@angular-devkit/schematics": "^10.0.1",
+    "@gb-lerna/schematics": "^0.4.0",
+    "@schematics/schematics": "^0.1000.1",
+    "inquirer": "^7.3.0",
+    "minimist": "^1.2.5",
+    "rxjs": "^6.6.0",
+    "symbol-observable": "^1.2.0"
+  }
+}

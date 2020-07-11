@@ -1,6 +1,7 @@
 {
   "name": "@gb-lerna/schematics",
-  "version": "0.3.0",
+  "version": "0.4.0",
+  "private": false,
   "author": {
     "name": "Gary Bortosky",
     "url": "https://github.com/GaryB432"
