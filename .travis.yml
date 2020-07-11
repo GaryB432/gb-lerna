@@ -8,4 +8,3 @@ before_script:
   - lerna bootstrap --hoist
 script:
   - npm test
-  - lerna run build
