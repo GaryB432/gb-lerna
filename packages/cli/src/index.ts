@@ -10,15 +10,7 @@
 // symbol polyfill must go first
 import 'symbol-observable';
 // tslint:disable-next-line:ordered-imports import-groups
-import {
-  JsonObject,
-  logging,
-  normalize,
-  schema,
-  tags,
-  terminal,
-  virtualFs,
-} from '@angular-devkit/core';
+import { JsonObject, logging, normalize, schema, tags, virtualFs } from '@angular-devkit/core';
 import { NodeJsSyncHost, ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node';
 import {
   DryRunEvent,
@@ -33,6 +25,13 @@ import {
 } from '@angular-devkit/schematics/tools';
 import * as inquirer from 'inquirer';
 import * as minimist from 'minimist';
+
+const terminal = {
+  white: (s: string) => s,
+  green: (s: string) => s,
+  yellow: (s: string) => s,
+  blue: (s: string) => s,
+};
 
 /**
  * Parse the name of schematic passed in argument, and return a {collection, schematic} named
