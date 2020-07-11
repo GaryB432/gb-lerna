@@ -18,7 +18,6 @@ import {
 } from '@angular-devkit/schematics/tools';
 import * as inquirer from 'inquirer';
 import * as minimist from 'minimist';
-
 import * as colors from 'colors/safe';
 
 /**
@@ -271,14 +270,14 @@ export async function main({
    */
   try {
     // console.log(parsedArgs, 'parsedArgs');
-    const { name, independent } = argv;
+    const { name, independent, packageName } = argv;
     await workflow
       .execute({
         allowPrivate: false,
         collection: '@gb-lerna/schematics',
         debug: false,
         logger: logger,
-        options: { name, independent },
+        options: { name, independent, packageName },
         schematic: argv._[0],
       })
       .toPromise();
