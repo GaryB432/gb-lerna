@@ -10,7 +10,7 @@ This monorepo contains my registry packages using
 * eslint
 * Typescript
 
-You can make one yourself using the [`Yeoman`](https://yeoman.io/) [`generator`](https://github.com/GaryB432/generator-lerna-typescript). 
+You can make one yourself using the [`Schematics`](https://www.npmjs.com/package/@angular-devkit/schematics) [`collection`](https://www.npmjs.com/package/@gb-lerna/schematics). 
 
 ## Packages (this may contain one day)
 
