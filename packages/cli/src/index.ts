@@ -1,24 +1,9 @@
 #!/usr/bin/env node
-/**
- * @license
- * Copyright Google Inc. All Rights Reserved.
- *
- * Use of this source code is governed by an MIT-style license that can be
- * found in the LICENSE file at https://angular.io/license
- */
 
 // symbol polyfill must go first
 import 'symbol-observable';
 // tslint:disable-next-line:ordered-imports import-groups
-import {
-  JsonObject,
-  logging,
-  normalize,
-  schema,
-  tags,
-  terminal,
-  virtualFs,
-} from '@angular-devkit/core';
+import { logging, normalize, schema, tags, virtualFs } from '@angular-devkit/core';
 import { NodeJsSyncHost, ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node';
 import {
   DryRunEvent,
@@ -33,6 +18,7 @@ import {
 } from '@angular-devkit/schematics/tools';
 import * as inquirer from 'inquirer';
 import * as minimist from 'minimist';
+import * as colors from 'colors/safe';
 
 /**
  * Parse the name of schematic passed in argument, and return a {collection, schematic} named
@@ -44,20 +30,20 @@ import * as minimist from 'minimist';
  * schematics package (@schematics/schematics) as the collection.
  *
  * This logic is entirely up to the tooling.
- *
- * @param str The argument to parse.
- * @return {{collection: string, schematic: (string)}}
- */
-function parseSchematicName(str: string | null): { collection: string; schematic: string | null } {
-  let collection = '@schematics/schematics';
+//  *
+//  * @param str The argument to parse.
+//  * @return {{collection: string, schematic: (string)}}
+//  */
+// function parseSchematicName(str: string | null): { collection: string; schematic: string | null } {
+//   let collection = '@schematics/schematics';
 
-  let schematic = str;
-  if (schematic && schematic.indexOf(':') != -1) {
-    [collection, schematic] = schematic.split(':', 2);
-  }
+//   let schematic = str;
+//   if (schematic && schematic.indexOf(':') != -1) {
+//     [collection, schematic] = schematic.split(':', 2);
+//   }
 
-  return { collection, schematic };
-}
+//   return { collection, schematic };
+// }
 
 export interface MainOptions {
   args: string[];
@@ -128,7 +114,9 @@ export async function main({
   stdout = process.stdout,
   stderr = process.stderr,
 }: MainOptions): Promise<0 | 1> {
+  // console.log(args);
   const argv = parseArgs(args);
+  console.log(argv);
 
   /** Create the DevKit Logger used through the CLI. */
   const logger = createConsoleLogger(argv['verbose'], stdout, stderr);
@@ -139,27 +127,27 @@ export async function main({
   }
 
   /** Get the collection an schematic name from the first argument. */
-  const { collection: collectionName, schematic: schematicName } = parseSchematicName(
-    argv._.shift() || null
-  );
-  const isLocalCollection = collectionName.startsWith('.') || collectionName.startsWith('/');
+  // const { collection: collectionName, schematic: schematicName } = parseSchematicName(
+  //   argv._.shift() || null
+  // );
+  // const isLocalCollection = collectionName.startsWith('.') || collectionName.startsWith('/');
 
   /** If the user wants to list schematics, we simply show all the schematic names. */
-  if (argv['list-schematics']) {
-    return _listSchematics(collectionName, logger);
-  }
+  // if (argv['list-schematics']) {
+  //   return _listSchematics(collectionName, logger);
+  // }
 
-  if (!schematicName) {
-    logger.info(getUsage());
+  // if (!schematicName) {
+  //   logger.info(getUsage());
 
-    return 1;
-  }
+  //   return 1;
+  // }
 
   /** Gather the arguments for later use. */
-  const debug: boolean = argv.debug === null ? isLocalCollection : argv.debug;
-  const dryRun: boolean = argv['dry-run'] === null ? debug : argv['dry-run'];
+  // const debug: boolean = argv.debug === null ? isLocalCollection : argv.debug;
+  const dryRun: boolean = argv['dry-run'] === null ? false : argv['dry-run'];
   const force = argv['force'];
-  const allowPrivate = argv['allow-private'];
+  // const allowPrivate = argv['allow-private'];
 
   /** Create a Virtual FS Host scoped to where the process is being run. **/
   const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
@@ -209,20 +197,20 @@ export async function main({
         break;
       case 'update':
         loggingQueue.push(tags.oneLine`
-        ${terminal.white('UPDATE')} ${eventPath} (${event.content.length} bytes)
+        ${colors.white('UPDATE')} ${eventPath} (${event.content.length} bytes)
       `);
         break;
       case 'create':
         loggingQueue.push(tags.oneLine`
-        ${terminal.green('CREATE')} ${eventPath} (${event.content.length} bytes)
+        ${colors.green('CREATE')} ${eventPath} (${event.content.length} bytes)
       `);
         break;
       case 'delete':
-        loggingQueue.push(`${terminal.yellow('DELETE')} ${eventPath}`);
+        loggingQueue.push(`${colors.yellow('DELETE')} ${eventPath}`);
         break;
       case 'rename':
         const eventToPath = event.to.startsWith('/') ? event.to.substr(1) : event.to;
-        loggingQueue.push(`${terminal.blue('RENAME')} ${eventPath} => ${eventToPath}`);
+        loggingQueue.push(`${colors.blue('RENAME')} ${eventPath} => ${eventToPath}`);
         break;
     }
   });
@@ -245,29 +233,29 @@ export async function main({
   /**
    * Remove every options from argv that we support in schematics itself.
    */
-  const parsedArgs = Object.assign({}, argv);
-  delete parsedArgs['--'];
-  for (const key of booleanArgs) {
-    delete parsedArgs[key];
-  }
+  // const parsedArgs = Object.assign({}, argv);
+  // delete parsedArgs['--'];
+  // for (const key of booleanArgs) {
+  //   delete parsedArgs[key];
+  // }
 
   /**
    * Add options from `--` to args.
    */
-  const argv2 = minimist(argv['--']);
-  for (const key of Object.keys(argv2)) {
-    parsedArgs[key] = argv2[key];
-  }
+  // const argv2 = minimist(argv['--']);
+  // for (const key of Object.keys(argv2)) {
+  //   parsedArgs[key] = argv2[key];
+  // }
 
   // Pass the rest of the arguments as the smart default "argv". Then delete it.
-  workflow.registry.addSmartDefaultProvider('argv', (schema: JsonObject) => {
-    if ('index' in schema) {
-      return argv._[Number(schema['index'])];
-    } else {
-      return argv._;
-    }
-  });
-  delete parsedArgs._;
+  // workflow.registry.addSmartDefaultProvider('argv', (schema: JsonObject) => {
+  //   if ('index' in schema) {
+  //     return argv._[Number(schema['index'])];
+  //   } else {
+  //     return argv._;
+  //   }
+  // });
+  // delete parsedArgs._;
 
   // Add prompts.
   workflow.registry.usePromptProvider(_createPromptProvider());
@@ -281,14 +269,16 @@ export async function main({
    *  when everything is done.
    */
   try {
+    // console.log(parsedArgs, 'parsedArgs');
+    const { independent, name, packageName } = argv;
     await workflow
       .execute({
-        allowPrivate: allowPrivate,
-        collection: collectionName,
-        debug: debug,
+        allowPrivate: false,
+        collection: '@gb-lerna/schematics',
+        debug: false,
         logger: logger,
-        options: parsedArgs,
-        schematic: schematicName,
+        options: { independent, name, packageName },
+        schematic: argv._[0],
       })
       .toPromise();
 
@@ -301,8 +291,6 @@ export async function main({
     if (err instanceof UnsuccessfulWorkflowExecution) {
       // "See above" because we already printed the error.
       logger.fatal('The Schematic workflow failed. See above.');
-    } else if (debug) {
-      logger.fatal('An error occured:\n' + err.stack);
     } else {
       logger.fatal(err.stack || err.message);
     }
@@ -316,7 +304,7 @@ export async function main({
  */
 function getUsage(): string {
   return tags.stripIndent`
-  schematics [CollectionName:]SchematicName [options, ...]
+  gb-lerna repo tbd
 
   By default, if the collection name is not specified, use the internal collection provided
   by the Schematics CLI.
@@ -340,7 +328,6 @@ function getUsage(): string {
 
       --help              Show this message.
 
-  Any additional option is passed to the Schematics depending on
   `;
 }
 
@@ -355,32 +342,28 @@ const booleanArgs = [
   'help',
   'list-schematics',
   'listSchematics',
+  'independent',
   'verbose',
 ];
 
 function parseArgs(args: string[] | undefined): minimist.ParsedArgs {
   return minimist(args, {
-    '--': true,
+    '--': false,
     alias: {
-      allowPrivate: 'allow-private',
       dryRun: 'dry-run',
-      listSchematics: 'list-schematics',
     },
     boolean: booleanArgs,
     default: {
-      debug: null,
       dryRun: null,
     },
   });
 }
 
-console.log('not yet implemented');
-
-// if (require.main === module) {
-//   const args = process.argv.slice(2);
-//   main({ args })
-//     .then((exitCode) => (process.exitCode = exitCode))
-//     .catch((e) => {
-//       throw e;
-//     });
-// }
+if (require.main === module) {
+  const args = process.argv.slice(2);
+  main({ args })
+    .then((exitCode) => (process.exitCode = exitCode))
+    .catch((e) => {
+      throw e;
+    });
+}
