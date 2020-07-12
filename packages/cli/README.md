@@ -1,6 +1,6 @@
 # gb-lerna/cli
 
-Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js.org/) with Typescript.
+Create and maintain a [Lerna monorepo](https://lerna.js.org/) with Typescript.
 
 ## Installation
 
@@ -14,13 +14,13 @@ npm install -g @gb-lerna/cli
 mkdir sample-project
 cd sample-project
 git init
-gb-lerna repo --firstPackage @sample/website --no-independent
+gb-lerna repo --packageName @sample/website --no-independent
 gb-lerna package --name @sample/api
 gb-lerna package --name @sample/admin
 npm install
 lerna bootstrap
-lerna add @sample/api --scope=@sample/website
-lerna add @sample/api --scope=@sample/admin
+lerna add @sample/api --scope @sample/website
+lerna add @sample/api --scope @sample/admin
 npm test
 ```
 
