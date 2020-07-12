@@ -35,6 +35,7 @@
     "@angular-devkit/schematics": "^10.0.1"
   },
   "devDependencies": {
+    "@types/node": "^14.0.22",
     "cpx": "^1.5.0",
     "typescript": "^3.9.6"
   },

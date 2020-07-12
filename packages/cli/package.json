@@ -13,6 +13,8 @@
   "author": "",
   "devDependencies": {
     "@types/inquirer": "0.0.44",
+    "@types/minimist": "^1.2.0",
+    "@types/node": "^14.0.22",
     "cpx": "^1.5.0",
     "typescript": "^3.7.2"
   },
