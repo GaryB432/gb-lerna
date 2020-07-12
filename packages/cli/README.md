@@ -14,9 +14,9 @@ npm install -g @gb-lerna/cli
 mkdir sample-project
 cd sample-project
 git init
-gb-lerna repo @sample/website
-gb-lerna package @sample/api
-gb-lerna package @sample/admin
+gb-lerna repo --firstPackage @sample/website --no-independent
+gb-lerna package --name @sample/api
+gb-lerna package --name @sample/admin
 npm install
 lerna bootstrap
 lerna add @sample/api --scope=@sample/website
@@ -28,7 +28,7 @@ npm test
 
 ```properties
 cd your-app
-gb-lerna package @sample/tools
+gb-lerna package --name @sample/tools
 ```
 
 

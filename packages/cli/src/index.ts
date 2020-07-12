@@ -7,81 +7,12 @@ import { createConsoleLogger, NodeJsSyncHost, ProcessOutput } from '@angular-dev
 import { DryRunEvent, formats, UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
 import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
 import * as colors from 'colors/safe';
-import * as inquirer from 'inquirer';
 import { getWorkflowInfo } from './options-utils';
 
-/**
- * Parse the name of schematic passed in argument, and return a {collection, schematic} named
- * tuple. The user can pass in `collection-name:schematic-name`, and this function will either
- * return `{collection: 'collection-name', schematic: 'schematic-name'}`, or it will error out
- * and show usage.
- *
- * In the case where a collection name isn't part of the argument, the default is to use the
- * schematics package (@schematics/schematics) as the collection.
- *
- * This logic is entirely up to the tooling.
-//  *
-//  * @param str The argument to parse.
-//  * @return {{collection: string, schematic: (string)}}
-//  */
-// function parseSchematicName(str: string | null): { collection: string; schematic: string | null } {
-//   let collection = '@schematics/schematics';
-
-//   let schematic = str;
-//   if (schematic && schematic.indexOf(':') != -1) {
-//     [collection, schematic] = schematic.split(':', 2);
-//   }
-
-//   return { collection, schematic };
-// }
-
-export interface MainOptions {
+interface MainOptions {
   args: string[];
   stdout?: ProcessOutput;
   stderr?: ProcessOutput;
-}
-
-function _createPromptProvider(): schema.PromptProvider {
-  return (definitions: Array<schema.PromptDefinition>) => {
-    const questions: inquirer.Questions = definitions.map((definition) => {
-      const question: inquirer.Question = {
-        default: definition.default,
-        message: definition.message,
-        name: definition.id,
-      };
-
-      const validator = definition.validator;
-      if (validator) {
-        question.validate = (input) => validator(input);
-      }
-
-      switch (definition.type) {
-        case 'confirmation':
-          return { ...question, type: 'confirm' };
-        case 'list':
-          return {
-            ...question,
-            choices:
-              definition.items &&
-              definition.items.map((item) => {
-                if (typeof item == 'string') {
-                  return item;
-                } else {
-                  return {
-                    name: item.label,
-                    value: item.value,
-                  };
-                }
-              }),
-            type: !!definition.multiselect ? 'checkbox' : 'list',
-          };
-        default:
-          return { ...question, type: definition.type };
-      }
-    });
-
-    return inquirer.prompt(questions);
-  };
 }
 
 export async function main({
@@ -103,31 +34,12 @@ export async function main({
   //   return 0;
   // }
 
-  /** Get the collection an schematic name from the first argument. */
-  // const { collection: collectionName, schematic: schematicName } = parseSchematicName(
-  //   argv._.shift() || null
-  // );
-  // const isLocalCollection = collectionName.startsWith('.') || collectionName.startsWith('/');
-
-  /** If the user wants to list schematics, we simply show all the schematic names. */
-  // if (argv['list-schematics']) {
-  //   return _listSchematics(collectionName, logger);
-  // }
-
-  // if (!schematicName) {
-  //   logger.info(getUsage());
-
-  //   return 1;
-  // }
-
   const dryRun: boolean = argv?.dryRun || false;
   const force = false;
 
   const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
   const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
 
-  /** Create the workflow that will be executed with this run. */
-  // const {dryRun} = argv;
   const workflow = new NodeWorkflow(fsHost, {
     dryRun,
     force,
@@ -137,35 +49,18 @@ export async function main({
 
   registry.addPostTransform(schema.transforms.addUndefinedDefaults);
   workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
-
-  // Indicate to the user when nothing has been done. This is automatically set to off when there's
-  // a new DryRunEvent.
   let nothingDone = true;
 
-  // Logging queue that receives all the messages to show the users. This only get shown when no
-  // errors happened.
   let loggingQueue: string[] = [];
   let error = false;
 
-  /**
-   * Logs out dry run events.
-   *
-   * All events will always be executed here, in order of discovery. That means that an error would
-   * be shown along other events when it happens. Since errors in workflows will stop the Observable
-   * from completing successfully, we record any events other than errors, then on completion we
-   * show them.
-   *
-   * This is a simple way to only show errors when an error occur.
-   */
   workflow.reporter.subscribe((event: DryRunEvent) => {
     nothingDone = false;
-    // Strip leading slash to prevent confusion.
     const eventPath = event.path.startsWith('/') ? event.path.substr(1) : event.path;
 
     switch (event.kind) {
       case 'error':
         error = true;
-
         const desc = event.description == 'alreadyExist' ? 'already exists' : 'does not exist';
         logger.error(`ERROR! ${eventPath} ${desc}.`);
         break;
@@ -189,61 +84,21 @@ export async function main({
     }
   });
 
-  /**
-   * Listen to lifecycle events of the workflow to flush the logs between each phases.
-   */
   workflow.lifeCycle.subscribe((event) => {
     if (event.kind == 'workflow-end' || event.kind == 'post-tasks-start') {
       if (!error) {
         // Flush the log queue and clean the error state.
         loggingQueue.forEach((log) => logger.info(log));
       }
-
       loggingQueue = [];
       error = false;
     }
   });
 
-  /**
-   * Remove every options from argv that we support in schematics itself.
-   */
-  // const parsedArgs = Object.assign({}, argv);
-  // delete parsedArgs['--'];
-  // for (const key of booleanArgs) {
-  //   delete parsedArgs[key];
-  // }
-
-  /**
-   * Add options from `--` to args.
-   */
-  // const argv2 = minimist(argv['--']);
-  // for (const key of Object.keys(argv2)) {
-  //   parsedArgs[key] = argv2[key];
-  // }
-
-  // Pass the rest of the arguments as the smart default "argv". Then delete it.
-  // workflow.registry.addSmartDefaultProvider('argv', (schema: JsonObject) => {
-  //   if ('index' in schema) {
-  //     return argv._[Number(schema['index'])];
-  //   } else {
-  //     return argv._;
-  //   }
-  // });
-  // delete parsedArgs._;
-
   // Add prompts.
-  workflow.registry.usePromptProvider(_createPromptProvider());
+  // workflow.registry.usePromptProvider(_createPromptProvider());
 
-  /**
-   *  Execute the workflow, which will report the dry run events, run the tasks, and complete
-   *  after all is done.
-   *
-   *  The Observable returned will properly cancel the workflow if unsubscribed, error out if ANY
-   *  step of the workflow failed (sink or task), with details included, and will only complete
-   *  when everything is done.
-   */
   try {
-    // console.log(parsedArgs, 'parsedArgs');
     const { schematicName: schematic, options } = argv;
     await workflow
       .execute({
@@ -256,6 +111,10 @@ export async function main({
       })
       .toPromise();
 
+    if (dryRun) {
+      logger.info(`${colors.green('DRY RUN')} Nothing done`);
+    }
+
     if (nothingDone) {
       logger.info('Nothing to be done.');
     }
@@ -263,7 +122,6 @@ export async function main({
     return 0;
   } catch (err) {
     if (err instanceof UnsuccessfulWorkflowExecution) {
-      // "See above" because we already printed the error.
       logger.fatal('The Schematic workflow failed. See above.');
     } else {
       logger.fatal(err.stack || err.message);
@@ -278,60 +136,18 @@ export async function main({
  */
 function getUsage(): string {
   return tags.stripIndent`
-  gb-lerna repo tbd
-
-  By default, if the collection name is not specified, use the internal collection provided
-  by the Schematics CLI.
+  gb-lerna repo [--packageName=@initial/package --independent] | package [--name @scope/name]
 
   Options:
-      --debug             Debug mode. This is true by default if the collection is a relative
-                          path (in that case, turn off with --debug=false).
-
-      --allow-private     Allow private schematics to be run from the command line. Default to
-                          false.
-
       --dry-run           Do not output anything, but instead just show what actions would be
-                          performed. Default to true if debug is also true.
+                          performed.
 
       --force             Force overwriting files that would otherwise be an error.
-
-      --list-schematics   List all schematics from the collection, by name. A collection name
-                          should be suffixed by a colon. Example: '@schematics/schematics:'.
-
-      --verbose           Show more information.
 
       --help              Show this message.
 
   `;
 }
-
-/** Parse the command line. */
-const booleanArgs = [
-  'allowPrivate',
-  'allow-private',
-  'debug',
-  'dry-run',
-  'dryRun',
-  'force',
-  'help',
-  'list-schematics',
-  'listSchematics',
-  'independent',
-  'verbose',
-];
-
-// function parseArgs(args: string[] | undefined): minimist.ParsedArgs {
-//   return minimist(args, {
-//     '--': false,
-//     alias: {
-//       dryRun: 'dry-run',
-//     },
-//     boolean: booleanArgs,
-//     default: {
-//       dryRun: null,
-//     },
-//   });
-// }
 
 if (require.main === module) {
   const args = process.argv.slice(2);
