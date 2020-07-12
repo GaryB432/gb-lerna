@@ -13,6 +13,7 @@
   "author": "",
   "devDependencies": {
     "@types/inquirer": "0.0.44",
+    "cpx": "^1.5.0",
     "typescript": "^3.7.2"
   },
   "bin": {
@@ -39,5 +40,6 @@
     "minimist": "^1.2.5",
     "rxjs": "^6.6.0",
     "symbol-observable": "^1.2.0"
-  }
+  },
+  "gitHead": "7ed1411146f67662d40005478ed21f079341e685"
 }
