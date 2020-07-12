@@ -52,11 +52,14 @@ function parseArgs(args: string[]): minimist.ParsedArgs | undefined {
 }
 export function getWorkflowInfo(args: string[]): SchematicOptions | undefined {
   const schematicName = args[0];
-  const { dryRun, independent, packageName, name } = (parseArgs(args) as unknown) as AllOptions;
-  switch (schematicName) {
-    case 'repo':
-      return { dryRun, options: { independent, packageName }, schematicName };
-    case 'package':
-      return { dryRun, options: { name }, schematicName };
+  const opts = (parseArgs(args) as unknown) as AllOptions | undefined;
+  if (opts) {
+    const { dryRun, independent, packageName, name } = opts;
+    switch (schematicName) {
+      case 'repo':
+        return { dryRun, options: { independent, packageName }, schematicName };
+      case 'package':
+        return { dryRun, options: { name }, schematicName };
+    }
   }
 }

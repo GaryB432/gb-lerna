@@ -2,23 +2,13 @@
 
 // symbol polyfill must go first
 import 'symbol-observable';
-// tslint:disable-next-line:ordered-imports import-groups
-import { logging, normalize, schema, tags, virtualFs } from '@angular-devkit/core';
-import { NodeJsSyncHost, ProcessOutput, createConsoleLogger } from '@angular-devkit/core/node';
-import {
-  DryRunEvent,
-  SchematicEngine,
-  UnsuccessfulWorkflowExecution,
-  formats,
-} from '@angular-devkit/schematics';
-import {
-  NodeModulesEngineHost,
-  NodeWorkflow,
-  validateOptionsWithSchema,
-} from '@angular-devkit/schematics/tools';
-import * as inquirer from 'inquirer';
-import * as minimist from 'minimist';
+import { normalize, schema, tags, virtualFs } from '@angular-devkit/core';
+import { createConsoleLogger, NodeJsSyncHost, ProcessOutput } from '@angular-devkit/core/node';
+import { DryRunEvent, formats, UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
+import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
 import * as colors from 'colors/safe';
+import * as inquirer from 'inquirer';
+import { getWorkflowInfo } from './options-utils';
 
 /**
  * Parse the name of schematic passed in argument, and return a {collection, schematic} named
@@ -49,21 +39,6 @@ export interface MainOptions {
   args: string[];
   stdout?: ProcessOutput;
   stderr?: ProcessOutput;
-}
-
-function _listSchematics(collectionName: string, logger: logging.Logger) {
-  try {
-    const engineHost = new NodeModulesEngineHost();
-    const engine = new SchematicEngine(engineHost);
-    const collection = engine.createCollection(collectionName);
-    logger.info(engine.listSchematicNames(collection).join('\n'));
-  } catch (error) {
-    logger.fatal(error.message);
-
-    return 1;
-  }
-
-  return 0;
 }
 
 function _createPromptProvider(): schema.PromptProvider {
@@ -114,17 +89,19 @@ export async function main({
   stdout = process.stdout,
   stderr = process.stderr,
 }: MainOptions): Promise<0 | 1> {
-  // console.log(args);
-  const argv = parseArgs(args);
-  console.log(argv);
+  const logger = createConsoleLogger(false, stdout, stderr);
+  const argv = getWorkflowInfo(args);
 
-  /** Create the DevKit Logger used through the CLI. */
-  const logger = createConsoleLogger(argv['verbose'], stdout, stderr);
-  if (argv.help) {
+  if (!argv) {
     logger.info(getUsage());
-
     return 0;
   }
+
+  // if (argv.help) {
+  //   logger.info(getUsage());
+
+  //   return 0;
+  // }
 
   /** Get the collection an schematic name from the first argument. */
   // const { collection: collectionName, schematic: schematicName } = parseSchematicName(
@@ -143,17 +120,14 @@ export async function main({
   //   return 1;
   // }
 
-  /** Gather the arguments for later use. */
-  // const debug: boolean = argv.debug === null ? isLocalCollection : argv.debug;
-  const dryRun: boolean = argv['dry-run'] === null ? false : argv['dry-run'];
-  const force = argv['force'];
-  // const allowPrivate = argv['allow-private'];
+  const dryRun: boolean = argv?.dryRun || false;
+  const force = false;
 
-  /** Create a Virtual FS Host scoped to where the process is being run. **/
   const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
   const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
 
   /** Create the workflow that will be executed with this run. */
+  // const {dryRun} = argv;
   const workflow = new NodeWorkflow(fsHost, {
     dryRun,
     force,
@@ -270,15 +244,15 @@ export async function main({
    */
   try {
     // console.log(parsedArgs, 'parsedArgs');
-    const { independent, name, packageName } = argv;
+    const { schematicName: schematic, options } = argv;
     await workflow
       .execute({
         allowPrivate: false,
         collection: '@gb-lerna/schematics',
         debug: false,
         logger: logger,
-        options: { independent, name, packageName },
-        schematic: argv._[0],
+        options,
+        schematic,
       })
       .toPromise();
 
@@ -346,18 +320,18 @@ const booleanArgs = [
   'verbose',
 ];
 
-function parseArgs(args: string[] | undefined): minimist.ParsedArgs {
-  return minimist(args, {
-    '--': false,
-    alias: {
-      dryRun: 'dry-run',
-    },
-    boolean: booleanArgs,
-    default: {
-      dryRun: null,
-    },
-  });
-}
+// function parseArgs(args: string[] | undefined): minimist.ParsedArgs {
+//   return minimist(args, {
+//     '--': false,
+//     alias: {
+//       dryRun: 'dry-run',
+//     },
+//     boolean: booleanArgs,
+//     default: {
+//       dryRun: null,
+//     },
+//   });
+// }
 
 if (require.main === module) {
   const args = process.argv.slice(2);
