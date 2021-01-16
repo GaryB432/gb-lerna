@@ -1,5 +1,7 @@
 # gb-lerna/schematics
 
+ [![latest](https://img.shields.io/npm/v/@gb-lerna/schematics/latest.svg)](https://npmjs.com/package/@gb-lerna/schematics)
+
 Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js.org/) with Typescript.
 
 ## Installation

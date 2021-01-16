@@ -1,5 +1,7 @@
 # gb-lerna/cli
 
+ [![latest](https://img.shields.io/npm/v/@gb-lerna/cli/latest.svg)](https://npmjs.com/package/@gb-lerna/cli)
+
 Create and maintain a [Lerna monorepo](https://lerna.js.org/) with Typescript.
 
 ## Installation
