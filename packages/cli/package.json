@@ -11,13 +11,6 @@
   },
   "homepage": "https://github.com/GaryB432/gb-lerna/tree/master/packages/cli",
   "author": "",
-  "devDependencies": {
-    "@types/inquirer": "0.0.44",
-    "@types/minimist": "^1.2.0",
-    "@types/node": "^14.0.22",
-    "cpx": "^1.5.0",
-    "typescript": "^3.7.2"
-  },
   "bin": {
     "gb-lerna": "./lib/index.js"
   },
@@ -32,16 +25,13 @@
     "prepare": "npm run build"
   },
   "typings": "lib/index.d.ts",
+  "gitHead": "7ed1411146f67662d40005478ed21f079341e685",
   "dependencies": {
-    "@angular-devkit/core": "^10.0.1",
-    "@angular-devkit/schematics": "^10.0.1",
+    "@angular-devkit/core": "^11.0.7",
+    "@angular-devkit/schematics": "^11.0.7",
     "@gb-lerna/schematics": "^0.6.3",
-    "@schematics/schematics": "^0.1000.1",
+    "@schematics/schematics": "^0.1100.7",
     "colors": "^1.4.0",
-    "inquirer": "^7.3.0",
-    "minimist": "^1.2.5",
-    "rxjs": "^6.6.0",
-    "symbol-observable": "^1.2.0"
-  },
-  "gitHead": "7ed1411146f67662d40005478ed21f079341e685"
+    "symbol-observable": "^3.0.0"
+  }
 }
