@@ -18,7 +18,7 @@
   "scripts": {
     "test": "jest",
     "posttest": "eslint \"./packages/**/src/**/*.ts\" --config .eslintrc",
-    "format": "prettier --write \"**/*.ts\"  \"!**/lib/**\""
+    "format": "prettier --write ."
   },
   "dependencies": {
     "lerna": "^3.22.1"
