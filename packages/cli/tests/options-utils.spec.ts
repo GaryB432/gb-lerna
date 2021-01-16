@@ -14,15 +14,21 @@ describe('cli module', () => {
   });
 
   it('should make example parsedArgs', () => {
-    expect(minimist(['repo', '@scope/pn', '-i'], getRepoMinimistOpts())).toEqual<
-      minimist.ParsedArgs
-    >({ _: ['repo', '@scope/pn'], 'dry-run': false, dryRun: false, i: true, independent: true });
+    expect(
+      minimist(['repo', '@scope/pn', '-i'], getRepoMinimistOpts())
+    ).toEqual<minimist.ParsedArgs>({
+      _: ['repo', '@scope/pn'],
+      'dry-run': false,
+      dryRun: false,
+      i: true,
+      independent: true,
+    });
   });
 
   it('should parse repo', () => {
-    const ro = expect(getWorkflowInfo(['repo', '--packageName', 'banana', '-i'])).toEqual<
-      RepoOptions
-    >({
+    const ro = expect(
+      getWorkflowInfo(['repo', '--packageName', 'banana', '-i'])
+    ).toEqual<RepoOptions>({
       dryRun: false,
       options: { independent: true, packageName: 'banana' },
       schematicName: 'repo',
