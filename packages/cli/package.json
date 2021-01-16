@@ -32,6 +32,9 @@
     "@gb-lerna/schematics": "^0.6.3",
     "@schematics/schematics": "^0.1100.7",
     "colors": "^1.4.0",
-    "symbol-observable": "^3.0.0"
+    "symbol-observable": "^2.0.3"
+  },
+  "devDependencies": {
+    "typescript": "^4.1.3"
   }
 }
