@@ -1,6 +1,7 @@
 # gb-lerna/cli
 
- [![latest](https://img.shields.io/npm/v/@gb-lerna/cli/latest.svg)](https://npmjs.com/package/@gb-lerna/cli)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![latest](https://img.shields.io/npm/v/@gb-lerna/cli/latest.svg)](https://npmjs.com/package/@gb-lerna/cli)
 
 Create and maintain a [Lerna monorepo](https://lerna.js.org/) with Typescript.
 
@@ -33,10 +34,9 @@ cd your-app
 gb-lerna package --name @sample/tools
 ```
 
-
-| schematic | purpose |
-|-|-|
-| eslint | add eslint to your project |
-| package | add a new package to your monorepo |
-| prettier | add prettier to your project |
-| repository (repo) | create a new monorepo project |
+| schematic         | purpose                            |
+| ----------------- | ---------------------------------- |
+| eslint            | add eslint to your project         |
+| package           | add a new package to your monorepo |
+| prettier          | add prettier to your project       |
+| repository (repo) | create a new monorepo project      |

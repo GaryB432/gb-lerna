@@ -3,6 +3,6 @@ module.exports = {
   testEnvironment: 'node',
   testPathIgnorePatterns: ['/node_modules/', '/output/'],
   globals: {
-    skipBabel: true
-  }
+    skipBabel: true,
+  },
 };
