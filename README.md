@@ -4,7 +4,7 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-f8bc45.svg)](https://github.com/prettier/prettier)
-[![workflows](https://github.com/GaryB432/gb-lerna/workflows/Node.js%20CI/badge.svg)](/actions)
+[![workflows](https://github.com/GaryB432/gb-lerna/workflows/Node.js%20CI/badge.svg)](https://github.com/GaryB432/gb-lerna/actions)
 
 Create and maintain a [Lerna](https://lerna.js.org/) monorepo using [TypeScript](http://www.typescriptlang.org/).
 
