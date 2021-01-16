@@ -1,14 +1,31 @@
 # gb-lerna
 
+[![License: ISC](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC)
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
-[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](https://www.typescriptlang.org/)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-f8bc45.svg)](https://github.com/prettier/prettier)
+![workflows](https://github.com/GaryB432/gb-lerna/workflows/Node.js%20CI/badge.svg)
 
-create and maintain lerna monorepo using typescript
+Create and maintain a [Lerna](https://lerna.js.org/) monorepo using [TypeScript](http://www.typescriptlang.org/).
+
+## Getting Started
+
+See how to get up and running with the [CLI documentation](/packages/cli/README.md).
 
 ## Packages
 
-| Project | Package | Version | Links |
-|---|---|---|---|
-**cli** | [`CLI`](https://npmjs.com/package/@gb-lerna/cli) | [![latest](https://img.shields.io/npm/v/@gb-lerna/cli/latest.svg)](https://npmjs.com/package/@gb-lerna/cli) | [![README](https://img.shields.io/badge/README--green.svg)](/packages/cli/README.md) 
-**schematics** | [`Schematics`](https://npmjs.com/package/@gb-lerna/schematics) | [![latest](https://img.shields.io/npm/v/@gb-lerna/schematics/latest.svg)](https://npmjs.com/package/@gb-lerna/schematics) | [![README](https://img.shields.io/badge/README--green.svg)](/packages/schematics/README.md) 
- 
+### `@gb-lerna/cli`
+
+[![License: MIT](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC)
+[![npm version](https://badge.fury.io/js/%40gb-lerna%2Fcli.svg)](https://badge.fury.io/js/%40gb-lerna%2Fcli)
+[![README](https://img.shields.io/badge/README--green.svg)](/packages/cli/README.md)
+
+The `@gb-lerna/cli` library is the command line interface for your TypeScript-based monorepo.
+
+### `@gb-lerna/schematics`
+
+[![License: MIT](https://img.shields.io/badge/License-ISC-yellow.svg)](https://opensource.org/licenses/ISC)
+[![npm version](https://badge.fury.io/js/%40gb-lerna%2Fschematics.svg)](https://badge.fury.io/js/%40gb-lerna%2Fschematics)
+[![README](https://img.shields.io/badge/README--green.svg)](/packages/schematics/README.md)
+
+The `@gb-lerna/schematics` package is a library of [schematics](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics) and other utilities used by the cli.

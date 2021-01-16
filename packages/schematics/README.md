@@ -1,6 +1,7 @@
 # gb-lerna/schematics
 
- [![latest](https://img.shields.io/npm/v/@gb-lerna/schematics/latest.svg)](https://npmjs.com/package/@gb-lerna/schematics)
+[![TypeScript](https://img.shields.io/badge/%3C%2F%3E-TypeScript-%230074c1.svg)](http://www.typescriptlang.org/)
+[![latest](https://img.shields.io/npm/v/@gb-lerna/schematics/latest.svg)](https://npmjs.com/package/@gb-lerna/schematics)
 
 Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js.org/) with Typescript.
 
@@ -39,16 +40,15 @@ schematics gb-lerna/schematics:package @sample/tools
 schematics gb-lerna/schematics: --list-schematics
 ```
 
-| schematic | purpose |
-|-|-|
-| eslint | add eslint to your project |
-| package | add a new package to your monorepo |
-| prettier | add prettier to your project |
-| repository (repo) | create a new monorepo project |
-
+| schematic         | purpose                            |
+| ----------------- | ---------------------------------- |
+| eslint            | add eslint to your project         |
+| package           | add a new package to your monorepo |
+| prettier          | add prettier to your project       |
+| repository (repo) | create a new monorepo project      |
 
 ### See also
 
-* [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
-* [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
-* [Angular Blog](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
+- [Angular Schematics](https://github.com/angular/angular-cli/tree/master/packages/schematics/angular)
+- [Schematics README](https://github.com/angular/angular-cli/blob/master/packages/angular_devkit/schematics/README.md)
+- [Angular Blog](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
