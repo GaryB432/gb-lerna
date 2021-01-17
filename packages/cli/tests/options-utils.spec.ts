@@ -37,6 +37,15 @@ describe('cli module', () => {
   });
 
   it('should parse package', () => {
+    expect(getWorkflowInfo(['package', '--name', 'cranberry', '-f'])).toEqual<PackageOptions>({
+      dryRun: false,
+      force: true,
+      options: { name: 'cranberry' },
+      schematicName: 'package',
+    });
+  });
+
+  it('should parse package equal', () => {
     expect(getWorkflowInfo(['package', '--name=apple'])).toEqual<PackageOptions>({
       dryRun: false,
       force: false,
