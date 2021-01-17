@@ -5,12 +5,12 @@ import { LifeCycleEvent } from '@angular-devkit/schematics/src/workflow';
 import * as colors from 'colors/safe';
 
 export class WorkflowHandler {
-  private loggingQueue: string[] = [];
   public nothingDone = false;
   public error = false;
-  constructor(private logger: Logger) {}
+  private loggingQueue: string[] = [];
+  public constructor(private logger: Logger) {}
   public handleEvent(event: DryRunEvent): void {
-    this.loggingQueue.push(colors.yellow( event.kind));
+    this.loggingQueue.push(colors.yellow(event.kind));
     this.nothingDone = false;
     const eventPath = event.path.startsWith('/') ? event.path.substr(1) : event.path;
     switch (event.kind) {
@@ -39,7 +39,7 @@ export class WorkflowHandler {
     }
   }
   public handleLifecycle(event: LifeCycleEvent): void {
-    this.loggingQueue.push(colors.blue( event.kind));
+    this.loggingQueue.push(colors.blue(event.kind));
     if (event.kind == 'workflow-end' || event.kind == 'post-tasks-start') {
       if (!this.error) {
         // Flush the log queue and clean the error state.

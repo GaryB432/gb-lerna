@@ -53,12 +53,7 @@ export async function main({
   workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
 
   workflow.reporter.subscribe({ next: (e) => wfHandler.handleEvent(e) });
-  workflow.lifeCycle.subscribe({
-    next: (e) => wfHandler.handleLifecycle(e),
-    complete: () => {
-      console.log('done');
-    },
-  });
+  workflow.lifeCycle.subscribe({ next: (e) => wfHandler.handleLifecycle(e) });
 
   // Add prompts.
   // workflow.registry.usePromptProvider(_createPromptProvider());
