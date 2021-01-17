@@ -28,9 +28,7 @@ describe('cli module', () => {
   });
 
   it('should parse repo', () => {
-    expect(
-      getWorkflowInfo(['repo', '--packageName', 'banana', '-i'])
-    ).toEqual<RepoOptions>({
+    expect(getWorkflowInfo(['repo', '--packageName', 'banana', '-i'])).toEqual<RepoOptions>({
       dryRun: false,
       force: false,
       options: { independent: true, packageName: 'banana' },

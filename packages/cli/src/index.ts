@@ -2,12 +2,14 @@
 
 // symbol polyfill must go first
 import 'symbol-observable';
+
 import { normalize, schema, tags, virtualFs } from '@angular-devkit/core';
 import { createConsoleLogger, NodeJsSyncHost, ProcessOutput } from '@angular-devkit/core/node';
-import { DryRunEvent, formats, UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
+import { formats, UnsuccessfulWorkflowExecution } from '@angular-devkit/schematics';
 import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
 import * as colors from 'colors/safe';
 import { getWorkflowInfo } from './options-utils';
+import { WorkflowHandler } from './workflow-utils';
 
 interface MainOptions {
   args: string[];
@@ -20,8 +22,9 @@ export async function main({
   stdout = process.stdout,
   stderr = process.stderr,
 }: MainOptions): Promise<0 | 1> {
-  const logger = createConsoleLogger(false, stdout, stderr);
   const argv = getWorkflowInfo(args);
+  const logger = createConsoleLogger(false, stdout, stderr);
+  const wfHandler = new WorkflowHandler(logger);
 
   if (!argv) {
     logger.info(getUsage());
@@ -30,7 +33,6 @@ export async function main({
 
   // if (argv.help) {
   //   logger.info(getUsage());
-
   //   return 0;
   // }
 
@@ -49,50 +51,13 @@ export async function main({
 
   registry.addPostTransform(schema.transforms.addUndefinedDefaults);
   workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
-  let nothingDone = true;
 
-  let loggingQueue: string[] = [];
-  let error = false;
-
-  workflow.reporter.subscribe((event: DryRunEvent) => {
-    nothingDone = false;
-    const eventPath = event.path.startsWith('/') ? event.path.substr(1) : event.path;
-
-    switch (event.kind) {
-      case 'error':
-        error = true;
-        const desc = event.description == 'alreadyExist' ? 'already exists' : 'does not exist';
-        logger.error(`ERROR! ${eventPath} ${desc}.`);
-        break;
-      case 'update':
-        loggingQueue.push(tags.oneLine`
-        ${colors.white('UPDATE')} ${eventPath} (${event.content.length} bytes)
-      `);
-        break;
-      case 'create':
-        loggingQueue.push(tags.oneLine`
-        ${colors.green('CREATE')} ${eventPath} (${event.content.length} bytes)
-      `);
-        break;
-      case 'delete':
-        loggingQueue.push(`${colors.yellow('DELETE')} ${eventPath}`);
-        break;
-      case 'rename':
-        const eventToPath = event.to.startsWith('/') ? event.to.substr(1) : event.to;
-        loggingQueue.push(`${colors.blue('RENAME')} ${eventPath} => ${eventToPath}`);
-        break;
-    }
-  });
-
-  workflow.lifeCycle.subscribe((event) => {
-    if (event.kind == 'workflow-end' || event.kind == 'post-tasks-start') {
-      if (!error) {
-        // Flush the log queue and clean the error state.
-        loggingQueue.forEach((log) => logger.info(log));
-      }
-      loggingQueue = [];
-      error = false;
-    }
+  workflow.reporter.subscribe({ next: (e) => wfHandler.handleEvent(e) });
+  workflow.lifeCycle.subscribe({
+    next: (e) => wfHandler.handleLifecycle(e),
+    complete: () => {
+      console.log('done');
+    },
   });
 
   // Add prompts.
@@ -105,7 +70,7 @@ export async function main({
         allowPrivate: false,
         collection: '@gb-lerna/schematics',
         debug: false,
-        logger: logger,
+        logger,
         options,
         schematic,
       })
@@ -115,7 +80,7 @@ export async function main({
       logger.info(`${colors.green('DRY RUN')} Nothing done`);
     }
 
-    if (nothingDone) {
+    if (wfHandler.nothingDone) {
       logger.info('Nothing to be done.');
     }
 
