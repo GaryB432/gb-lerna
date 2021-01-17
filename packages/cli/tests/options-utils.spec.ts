@@ -20,16 +20,19 @@ describe('cli module', () => {
       _: ['repo', '@scope/pn'],
       'dry-run': false,
       dryRun: false,
+      f: false,
+      force: false,
       i: true,
       independent: true,
     });
   });
 
   it('should parse repo', () => {
-    const ro = expect(
+    expect(
       getWorkflowInfo(['repo', '--packageName', 'banana', '-i'])
     ).toEqual<RepoOptions>({
       dryRun: false,
+      force: false,
       options: { independent: true, packageName: 'banana' },
       schematicName: 'repo',
     });
@@ -38,6 +41,7 @@ describe('cli module', () => {
   it('should parse package', () => {
     expect(getWorkflowInfo(['package', '--name=apple'])).toEqual<PackageOptions>({
       dryRun: false,
+      force: false,
       options: { name: 'apple' },
       schematicName: 'package',
     });
@@ -46,6 +50,7 @@ describe('cli module', () => {
   it('should parse package dryRun', () => {
     expect(getWorkflowInfo(['package', '--name=apple', '--dryRun'])).toEqual<PackageOptions>({
       dryRun: true,
+      force: false,
       options: { name: 'apple' },
       schematicName: 'package',
     });
@@ -56,6 +61,7 @@ describe('cli module', () => {
       getWorkflowInfo(['package', '--name=apple', '--independent', '--packageName', 'pn'])
     ).toEqual<PackageOptions>({
       dryRun: false,
+      force: false,
       options: { name: 'apple' },
       schematicName: 'package',
     });

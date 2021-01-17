@@ -1,9 +1,9 @@
 import * as minimist from 'minimist';
 interface DryRunnableOptions {
   dryRun: boolean;
+  force: boolean;
 }
-interface AllOptions {
-  dryRun: boolean;
+interface AllOptions extends DryRunnableOptions {
   independent: boolean;
   name: string;
   packageName: string;
@@ -25,9 +25,9 @@ type SchematicOptions = RepoOptions | PackageOptions;
 export function getRepoMinimistOpts(): minimist.Opts {
   return {
     '--': false,
-    alias: { dryRun: 'dry-run', independent: 'i' },
-    boolean: ['independent', 'dryRun'],
-    default: { dryRun: false, independent: false },
+    alias: { dryRun: 'dry-run', force: 'f', independent: 'i' },
+    boolean: ['independent', 'dryRun', 'force'],
+    default: { dryRun: false, force: false, independent: false },
     stopEarly: false,
     string: ['packageName'],
   };
@@ -35,9 +35,9 @@ export function getRepoMinimistOpts(): minimist.Opts {
 function getPackageMinimistOpts(): minimist.Opts {
   return {
     '--': false,
-    alias: {},
-    boolean: ['dryRun'],
-    default: { dryRun: false },
+    alias: { force: 'f' },
+    boolean: ['dryRun', 'force'],
+    default: { dryRun: false, force: false },
     stopEarly: false,
     string: ['name'],
   };
@@ -54,12 +54,12 @@ export function getWorkflowInfo(args: string[]): SchematicOptions | undefined {
   const schematicName = args[0];
   const opts = (parseArgs(args) as unknown) as AllOptions | undefined;
   if (opts) {
-    const { dryRun, independent, packageName, name } = opts;
+    const { dryRun, force, independent, packageName, name } = opts;
     switch (schematicName) {
       case 'repo':
-        return { dryRun, options: { independent, packageName }, schematicName };
+        return { dryRun, force, options: { independent, packageName }, schematicName };
       case 'package':
-        return { dryRun, options: { name }, schematicName };
+        return { dryRun, force, options: { name }, schematicName };
     }
   }
 }

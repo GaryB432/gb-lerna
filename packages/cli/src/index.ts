@@ -35,7 +35,7 @@ export async function main({
   // }
 
   const dryRun: boolean = argv?.dryRun || false;
-  const force = false;
+  const force: boolean = argv?.force || false;
 
   const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
   const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
