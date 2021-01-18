@@ -55,6 +55,17 @@ Options:
   -h, --help  display help for command
 ```
 
+### module [options] <name> [scope]
+
+create a new class or module
+
+```
+Options:
+  -k, --kind <kind>  the kind of module (choices: "class", "functions")
+  --no-test          skip spec file
+  -h, --help         display help for command
+```
+
 ### [options] [command]
 
 ```
@@ -67,5 +78,6 @@ Options:
 Commands:
   repo [options] <initialPackage>  create a new monorepo with initial package
   package <name>                   create a new package
+  module [options] <name> [scope]  create a new class or module
   help [command]                   display help for command
 ```

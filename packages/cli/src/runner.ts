@@ -4,7 +4,7 @@ import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
 import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
 import { Reporter } from './reporter';
-import { PackageOptions, RepoOptions } from './types';
+import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
 type SchematicOptions = RepoOptions | PackageOptions;
 
@@ -57,6 +57,13 @@ export class Runner {
     this.workflow.execute(this.getExecutionContext('package', options)).subscribe({
       next: () => {
         this.logger.info('package done');
+      },
+    });
+  }
+  public createModule(options: ModuleOptions): void {
+    this.workflow.execute(this.getExecutionContext('module', options)).subscribe({
+      next: () => {
+        this.logger.info('module done');
       },
     });
   }
