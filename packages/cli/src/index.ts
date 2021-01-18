@@ -48,4 +48,11 @@ program
     createRunner(getProgramOptions(program.opts())).createPackage(options);
   });
 
+// program
+//   .command('plop')
+//   .description('show messages')
+//   .action(() => {
+//     createRunner(getProgramOptions(program.opts())).showMessages();
+//   });
+
 program.parse(process.argv);

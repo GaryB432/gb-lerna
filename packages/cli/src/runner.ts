@@ -1,6 +1,5 @@
 import { normalize, schema, virtualFs } from '@angular-devkit/core';
 import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node';
-import { Logger } from '@angular-devkit/core/src/logger';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
 import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
@@ -11,13 +10,14 @@ import { PackageOptions, RepoOptions } from './types';
 type SchematicOptions = RepoOptions | PackageOptions;
 
 export class Runner {
-  private logger: Logger;
+  private readonly logger = createConsoleLogger(false, process.stdout, process.stderr);
   private readonly workflow: NodeWorkflow;
+  private readonly reporter: Reporter;
+
   constructor(dryRun = false, force = false) {
-    this.logger = createConsoleLogger(false, process.stdout, process.stderr);
     const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
     const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
-    const reporter = new Reporter(this.logger, dryRun);
+    this.reporter = new Reporter(this.logger, dryRun);
 
     this.workflow = new NodeWorkflow(fsHost, {
       dryRun,
@@ -28,10 +28,10 @@ export class Runner {
     registry.addPostTransform(schema.transforms.addUndefinedDefaults);
     this.workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
     this.workflow.reporter.subscribe({
-      next: (event) => reporter.handleEvent(event),
+      next: (event) => this.reporter.handleEvent(event),
     });
     this.workflow.lifeCycle.subscribe({
-      next: (evemt) => reporter.handleLifecycle(evemt),
+      next: (evemt) => this.reporter.handleLifecycle(evemt),
     });
   }
   public getExecutionContext(
@@ -60,5 +60,14 @@ export class Runner {
         this.logger.info('package done');
       },
     });
+  }
+  public showMessages(): void {
+    const content = Buffer.from('testing', 'utf8');
+    const path = 'testing/stuff.txt';
+    this.reporter.handleEvent({ content, kind: 'create', path });
+    this.reporter.handleEvent({ content, kind: 'update', path });
+    this.reporter.handleEvent({ kind: 'delete', path });
+    this.reporter.handleEvent({ kind: 'rename', path, to: 'asdf' });
+    this.reporter.complete(true);
   }
 }

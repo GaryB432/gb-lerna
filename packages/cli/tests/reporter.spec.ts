@@ -25,7 +25,7 @@ class MockLogger implements LoggerApi {
   }
 }
 
-describe('WorkflowHandler', () => {
+describe('Reporter', () => {
   let logger: LoggerApi;
   let sut: Reporter;
   const content = Buffer.from('testing', 'utf8');
@@ -43,6 +43,6 @@ describe('WorkflowHandler', () => {
     logger.info = jest.fn();
     sut.handleEvent({ kind: 'create', path, content });
     sut.handleLifecycle({ kind: 'workflow-end' });
-    expect(logger.info).not.toHaveBeenCalledTimes(2);
+    expect(logger.info).not.toHaveBeenCalledTimes(1);
   });
 });
