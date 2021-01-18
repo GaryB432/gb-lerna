@@ -24,7 +24,7 @@ function getProgramOptions(o: Partial<ProgramOptions>): ProgramOptions {
   return { dryRun, force };
 }
 
-const program = new Command();
+const program = new Command('gb-lerna');
 program
   .version(require('../package.json').version)
   .option('-f, --force', 'use force on schematics')

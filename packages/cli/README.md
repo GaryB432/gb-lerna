@@ -33,3 +33,39 @@ npm test
 cd your-app
 gb-lerna package @sample/tools
 ```
+
+## Commands
+
+### repo|repository [options] <initialPackage>
+
+create a new monorepo with initial package
+
+```
+Options:
+  -i, --independent  version packages independently
+  -h, --help         display help for command
+```
+
+### package [options] <name>
+
+create a new package
+
+```
+Options:
+  -h, --help  display help for command
+```
+
+### [options] [command]
+
+```
+Options:
+  -V, --version                    output the version number
+  -f, --force                      use force on schematics
+  -d, --dryRun                     dry run only
+  -h, --help                       display help for command
+
+Commands:
+  repo [options] <initialPackage>  create a new monorepo with initial package
+  package <name>                   create a new package
+  help [command]                   display help for command
+```
