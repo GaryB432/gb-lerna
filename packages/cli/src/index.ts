@@ -6,8 +6,6 @@ import { Command } from 'commander';
 import { Runner } from './runner';
 import { PackageOptions, RepoOptions } from './types';
 
-export const collection = '@gb-lerna/schematics';
-
 export interface ProgramOptions {
   force: boolean;
   dryRun: boolean;
@@ -43,6 +41,14 @@ program
 program
   .command('package <name>')
   .description('create a new package')
+  .action((name: string, options: PackageOptions) => {
+    options.name = name;
+    createRunner(getProgramOptions(program.opts())).createPackage(options);
+  });
+
+program
+  .command('module <name>')
+  .description('create a new class or module')
   .action((name: string, options: PackageOptions) => {
     options.name = name;
     createRunner(getProgramOptions(program.opts())).createPackage(options);

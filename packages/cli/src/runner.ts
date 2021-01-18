@@ -3,7 +3,6 @@ import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
 import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
-import { collection } from '.';
 import { Reporter } from './reporter';
 import { PackageOptions, RepoOptions } from './types';
 
@@ -31,7 +30,7 @@ export class Runner {
       next: (event) => this.reporter.handleEvent(event),
     });
     this.workflow.lifeCycle.subscribe({
-      next: (evemt) => this.reporter.handleLifecycle(evemt),
+      next: (event) => this.reporter.handleLifecycle(event),
     });
   }
   public getExecutionContext(
@@ -40,7 +39,7 @@ export class Runner {
   ): WorkflowExecutionContext {
     return {
       allowPrivate: false,
-      collection,
+      collection: '@gb-lerna/schematics',
       debug: false,
       logger: this.logger,
       options,
