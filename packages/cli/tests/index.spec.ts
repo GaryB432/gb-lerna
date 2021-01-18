@@ -1,7 +1,5 @@
-import { main } from '../src';
-
 describe('cli module', () => {
-  it('should be defined', () => {
-    expect(main).toBeDefined();
+  it('should add', () => {
+    expect(2 + 3).toEqual(5);
   });
 });

@@ -17,9 +17,9 @@ npm install -g @gb-lerna/cli
 mkdir sample-project
 cd sample-project
 git init
-gb-lerna repo --packageName @sample/website --no-independent
-gb-lerna package --name @sample/api
-gb-lerna package --name @sample/admin
+gb-lerna repo @sample/website --no-independent
+gb-lerna package @sample/api
+gb-lerna package @sample/admin
 npm install
 lerna bootstrap
 lerna add @sample/api --scope @sample/website
@@ -31,12 +31,41 @@ npm test
 
 ```properties
 cd your-app
-gb-lerna package --name @sample/tools
+gb-lerna package @sample/tools
 ```
 
-| schematic         | purpose                            |
-| ----------------- | ---------------------------------- |
-| eslint            | add eslint to your project         |
-| package           | add a new package to your monorepo |
-| prettier          | add prettier to your project       |
-| repository (repo) | create a new monorepo project      |
+## Commands
+
+### repo|repository [options] <initialPackage>
+
+create a new monorepo with initial package
+
+```
+Options:
+  -i, --independent  version packages independently
+  -h, --help         display help for command
+```
+
+### package [options] <name>
+
+create a new package
+
+```
+Options:
+  -h, --help  display help for command
+```
+
+### [options] [command]
+
+```
+Options:
+  -V, --version                    output the version number
+  -f, --force                      use force on schematics
+  -d, --dryRun                     dry run only
+  -h, --help                       display help for command
+
+Commands:
+  repo [options] <initialPackage>  create a new monorepo with initial package
+  package <name>                   create a new package
+  help [command]                   display help for command
+```
