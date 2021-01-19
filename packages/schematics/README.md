@@ -40,12 +40,13 @@ schematics gb-lerna/schematics:package @sample/tools
 schematics gb-lerna/schematics: --list-schematics
 ```
 
-| schematic         | purpose                            |
-| ----------------- | ---------------------------------- |
-| eslint            | add eslint to your project         |
-| package           | add a new package to your monorepo |
-| prettier          | add prettier to your project       |
-| repository (repo) | create a new monorepo project      |
+| schematic         | purpose                                         |
+| ----------------- | ----------------------------------------------- |
+| eslint            | add eslint to your project                      |
+| module            | add a new class or function module to a package |
+| package           | add a new package to your monorepo              |
+| prettier          | add prettier to your project                    |
+| repository (repo) | create a new monorepo project                   |
 
 ### See also
 
