@@ -8,7 +8,7 @@ Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js
 ## Installation
 
 ```
-npm install -g lerna @angular-devkit/schematics-cli
+npm install -g lerna @angular-devkit/schematics-cli @gb-lerna/schematics
 ```
 
 ## Create a new monorepo
