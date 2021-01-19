@@ -16,14 +16,15 @@ npm install -g lerna @angular-devkit/schematics-cli
 ```
 mkdir sample-project
 cd sample-project
-git init
-schematics @gb-lerna/schematics:repo @sample/website
-schematics @gb-lerna/schematics:package @sample/api
-schematics @gb-lerna/schematics:package @sample/admin
-npm install
+schematics @gb-lerna/schematics:repo --packageName @sample/website --no-independent
+schematics @gb-lerna/schematics:package --name @sample/api
+schematics @gb-lerna/schematics:package --name @sample/admin
+schematics @gb-lerna/schematics:module --name lol --packageName @sample/admin
 lerna bootstrap
 lerna add @sample/api --scope=@sample/website
 lerna add @sample/api --scope=@sample/admin
+npm install
+npm run format
 npm test
 ```
 

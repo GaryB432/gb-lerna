@@ -11,7 +11,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { getPackageInfo, PackageInfo } from '../utils';
+import { getPackageInfo } from '../utils';
 
 interface IOptions {
   packageName: string;
@@ -20,28 +20,16 @@ interface IOptions {
   test: boolean;
 }
 
-// interface ILernaJson {
-//   packages: Array<string>;
-//   version: string;
-// }
-
-// function lernaPublishVersion(tree: Tree): string | undefined {
-//   const { version } = getFromJsonFile<ILernaJson>(tree, 'lerna.json');
-//   return version === 'independent' ? '0.0.0' : version;
-// }
-
-function packageName(p: PackageInfo): string {
-  return p.scope ? `@${p.scope}/${p.name}` : p.name;
-}
-
 export default function (options: IOptions): Rule {
   const packageInfo = getPackageInfo(options.packageName);
-  const name = options.name;
+  const moduleName = options.name;
 
-  const templatedSource = apply(url('./files'), [applyTemplates({ ...packageInfo, ...strings })]);
+  const templatedSource = apply(url('./files'), [
+    applyTemplates({ ...packageInfo, ...strings, moduleName }),
+  ]);
 
   return (tree: Tree, context: SchematicContext) => {
-    tree.create(`./packages/${strings.dasherize(packageInfo.name)}/fun.txt`, 'coming soon');
+    // tree.create(`./packages/${strings.dasherize(packageInfo.name)}/src/.gitkeep`, '');
 
     return chain([
       branchAndMerge(

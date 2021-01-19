@@ -1,6 +1,6 @@
-import { add, greet } from '../src';
+import { add, greet } from '../src/<%= moduleName %>';
 
-describe('<%= name %> module', () => {
+describe('<%= moduleName %>', () => {
   it('should add', () => {
     expect(add(2, 3)).toEqual(5);
   });

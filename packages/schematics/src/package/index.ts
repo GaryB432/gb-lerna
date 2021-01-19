@@ -7,6 +7,7 @@ import {
   MergeStrategy,
   mergeWith,
   Rule,
+  schematic,
   SchematicContext,
   Tree,
   url,
@@ -37,31 +38,12 @@ export default function (options: IOptions): Rule {
   const templatedSource = apply(url('./files'), [applyTemplates({ ...packageInfo, ...strings })]);
 
   return (tree: Tree, context: SchematicContext) => {
-    // const rootPackage: IPackageJson = {
-    //   "name": "root",
-    //   "private": true,
-    //   "devDependencies": {
-    //     "@types/jest": "^26.0.3",
-    //     "@types/node": "^14.0.14",
-    //     "jest": "^26.1.0",
-    //     "ts-jest": "^26.1.1",
-    //     "typescript": "^3.9.6"
-    //   },
-    //   "scripts": {
-    //     "test": "jest"
-    //   },
-    //   "dependencies": {
-    //     "lerna": "^3.22.1"
-    //   }
-    // };
-
-    // if (!tree.exists('package.json')){
-    //   tree.create('package.json', JSON.stringify(rootPackage, null,2));
-    // }
-
+    /* eslint-disable sort-keys */
     const packageJson: IPackageJson = {
-      author: '',
+      name: packageName(packageInfo),
+      version: lernaPublishVersion(tree) || '0.0.0',
       description: '',
+      private: false,
       devDependencies: {
         typescript: '^3.7.2',
       },
@@ -69,14 +51,11 @@ export default function (options: IOptions): Rule {
       keywords: [],
       license: 'ISC',
       main: 'lib/index.js',
-      name: packageName(packageInfo),
-      private: false,
       scripts: {
         build: 'tsc --pretty',
         prepare: 'npm run build',
       },
       typings: 'lib/index.d.ts',
-      version: lernaPublishVersion(tree) || '0.0.0',
     };
 
     tree.create(
@@ -86,7 +65,15 @@ export default function (options: IOptions): Rule {
 
     return chain([
       branchAndMerge(
-        chain([mergeWith(templatedSource, MergeStrategy.Overwrite)]),
+        chain([
+          mergeWith(templatedSource, MergeStrategy.Overwrite),
+          // schematic('module', {
+          //   packageName: options.name,
+          //   name: 'Greeter',
+          //   kind: 'class',
+          //   test: true,
+          // }),
+        ]),
         MergeStrategy.AllowOverwriteConflict
       ),
     ])(tree, context);
