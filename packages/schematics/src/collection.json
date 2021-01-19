@@ -21,6 +21,11 @@
       "description": "A new Lerna monorepo",
       "factory": "./repository",
       "schema": "./repository/schema.json"
+    },
+    "module": {
+      "description": "A class or function module",
+      "factory": "./module",
+      "schema": "./module/schema.json"
     }
   }
 }
