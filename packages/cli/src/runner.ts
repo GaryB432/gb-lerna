@@ -1,9 +1,8 @@
 import { normalize, schema, virtualFs } from '@angular-devkit/core';
 import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node';
-import { SchemaValidationException } from '@angular-devkit/core/src/json/schema';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
-import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
+import { NodeWorkflow } from '@angular-devkit/schematics/tools';
 import { Reporter } from './reporter';
 import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
@@ -25,8 +24,8 @@ export class Runner {
       registry,
       resolvePaths: [process.cwd(), __dirname],
     });
-    registry.addPostTransform(schema.transforms.addUndefinedDefaults);
-    this.workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
+    // registry.addPostTransform(schema.transforms.addUndefinedDefaults);
+    // this.workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
     this.workflow.reporter.subscribe({
       next: (event) => this.reporter.handleEvent(event),
     });
@@ -52,12 +51,18 @@ export class Runner {
       next: () => {
         this.logger.info('repo done');
       },
+      error: (e: Error) => {
+        this.reporter.handleException(e);
+      },
     });
   }
   public createPackage(options: PackageOptions): void {
     this.workflow.execute(this.getExecutionContext('package', options)).subscribe({
       next: () => {
         this.logger.info('package done');
+      },
+      error: (e: Error) => {
+        this.reporter.handleException(e);
       },
     });
   }
@@ -69,7 +74,7 @@ export class Runner {
       complete: () => {
         this.logger.info('I guess I am complete');
       },
-      error: (e: SchemaValidationException) => {
+      error: (e: Error) => {
         this.reporter.handleException(e);
       },
     });
