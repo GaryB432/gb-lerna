@@ -1,6 +1,8 @@
+import { SchemaValidationException } from '@angular-devkit/core/src/json/schema';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { DryRunEvent } from '@angular-devkit/schematics';
 import { LifeCycleEvent } from '@angular-devkit/schematics/src/workflow';
+import { InvalidInputOptions } from '@angular-devkit/schematics/tools/schema-option-transform';
 import * as colors from 'colors/safe';
 
 class Message {
@@ -58,17 +60,24 @@ export class Reporter {
   }
   public handleLifecycle(event: LifeCycleEvent): void {
     if (event.kind == 'workflow-end') {
-      this.complete(this.dryRun);
+      this.complete();
     }
   }
-  public complete(dryRun: boolean): void {
+  public handleException(e: Error): void {
+    this.error = true;
+    this.queueMessage('ERROR', e.message, colors.red);
+    this.complete();
+  }
+  public complete(dryRun = this.dryRun): void {
     if (dryRun) {
       this.queueMessage('DRY RUN', 'nothing done', colors.yellow);
     }
-    this.queueMessage('SUCCESS', '', (s: string) => colors.bgGreen(colors.white(s)));
-    if (!this.error) {
-      this.getMessages().forEach((log) => this.logger.info(log));
+    if (this.error) {
+      this.queueMessage('ERROR', 'see above', (s: string) => colors.bgRed(colors.white(s)));
+    } else {
+      this.queueMessage('SUCCESS', '', (s: string) => colors.bgGreen(colors.white(s)));
     }
+    this.getMessages().forEach((log) => this.logger.info(log));
     this.queue = [];
     this.error = false;
   }

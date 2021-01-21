@@ -1,5 +1,6 @@
 import { normalize, schema, virtualFs } from '@angular-devkit/core';
 import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node';
+import { SchemaValidationException } from '@angular-devkit/core/src/json/schema';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
 import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
@@ -64,6 +65,12 @@ export class Runner {
     this.workflow.execute(this.getExecutionContext('module', options)).subscribe({
       next: () => {
         this.logger.info('module done');
+      },
+      complete: () => {
+        this.logger.info('I guess I am complete');
+      },
+      error: (e: SchemaValidationException) => {
+        this.reporter.handleException(e);
       },
     });
   }
