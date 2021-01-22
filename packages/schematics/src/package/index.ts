@@ -7,7 +7,6 @@ import {
   MergeStrategy,
   mergeWith,
   Rule,
-  schematic,
   SchematicContext,
   Tree,
   url,

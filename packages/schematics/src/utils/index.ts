@@ -30,6 +30,7 @@ export interface PackageInfo {
 
 export interface ILernaJson {
   version: string;
+  packages: string[];
 }
 
 export function getPackageInfo(input: string): PackageInfo {

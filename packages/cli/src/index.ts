@@ -3,7 +3,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
 import { Command, Option } from 'commander';
-import { getPackages } from './lerna';
 import { Runner } from './runner';
 import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
@@ -11,8 +10,6 @@ export interface ProgramOptions {
   force: boolean;
   dryRun: boolean;
 }
-
-let packageNames: string[] = [];
 
 function createRunner(o: Partial<ProgramOptions>): Runner {
   const { dryRun, force } = getProgramOptions(o);
@@ -71,8 +68,4 @@ program
 //     createRunner(getProgramOptions(program.opts())).showMessages();
 //   });
 
-getPackages().then((packages) => {
-  packageNames = packages;
-  console.log(packages);
-  program.parse(process.argv);
-});
+program.parse(process.argv);

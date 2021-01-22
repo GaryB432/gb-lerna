@@ -17,5 +17,5 @@
     "kind": { "type": "string", "description": "kind of module", "enum": ["class", "functions"] },
     "test": { "type": "boolean", "description": "include spec file" }
   },
-  "required": ["name", "packageName"]
+  "required": ["name"]
 }
