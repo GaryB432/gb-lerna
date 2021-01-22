@@ -14,7 +14,9 @@ import {
 import { getFromJsonFile, IPackageJson } from '../utils';
 
 export default function (): Rule {
-  const templatedSource = apply(url('./files'), [applyTemplates({ ...strings })]);
+  const templatedSource = apply(url('./files'), [
+    applyTemplates({ ...strings }),
+  ]);
 
   return (tree: Tree, context: SchematicContext) => {
     const packageJson = getFromJsonFile<IPackageJson>(tree, 'package.json');

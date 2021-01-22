@@ -14,7 +14,11 @@
       "type": "string",
       "description": "the package to contain the new module."
     },
-    "kind": { "type": "string", "description": "kind of module", "enum": ["class", "functions"] },
+    "kind": {
+      "type": "string",
+      "description": "kind of module",
+      "enum": ["class", "functions"]
+    },
     "test": { "type": "boolean", "description": "include spec file" }
   },
   "required": ["name"]

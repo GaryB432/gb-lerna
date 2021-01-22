@@ -10,7 +10,11 @@ describe('package', () => {
     st.create('/lerna.json', '{ "version": "1.2.3" }');
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const tree = await runner
-      .runSchematicAsync('package', { name: '@DemoScope/DasherizedPackageName' }, st)
+      .runSchematicAsync(
+        'package',
+        { name: '@DemoScope/DasherizedPackageName' },
+        st
+      )
       .toPromise();
 
     const packageJsonPath = '/packages/dasherized-package-name/package.json';
@@ -31,7 +35,11 @@ describe('package', () => {
     st.create('/lerna.json', '{ "version": "independent" }');
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const tree = await runner
-      .runSchematicAsync('package', { name: '@DemoScope/DasherizedPackageName' }, st)
+      .runSchematicAsync(
+        'package',
+        { name: '@DemoScope/DasherizedPackageName' },
+        st
+      )
       .toPromise();
 
     const packageJsonPath = '/packages/dasherized-package-name/package.json';

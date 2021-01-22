@@ -12,5 +12,11 @@
     "downlevelIteration": true,
     "typeRoots": ["./node_modules/@types"]
   },
-  "exclude": ["**/*.test.ts", "**/test.config.ts", "node_modules", "**/build/*", "**/*.d.ts"]
+  "exclude": [
+    "**/*.test.ts",
+    "**/test.config.ts",
+    "node_modules",
+    "**/build/*",
+    "**/*.d.ts"
+  ]
 }

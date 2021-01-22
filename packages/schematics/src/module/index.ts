@@ -13,7 +13,12 @@ import {
   url,
 } from '@angular-devkit/schematics';
 import minimatch = require('minimatch');
-import { getFromJsonFile, getPackageInfo, ILernaJson, IPackageJson } from '../utils';
+import {
+  getFromJsonFile,
+  getPackageInfo,
+  ILernaJson,
+  IPackageJson,
+} from '../utils';
 
 interface IOptions {
   packageName: string;
@@ -25,13 +30,19 @@ interface IOptions {
 function getPackageNames(tree: Tree): string[] {
   const pkgs: string[] = [];
   const { packages } = getFromJsonFile<ILernaJson>(tree, 'lerna.json');
-  const packageJsons = packages.map((packageGlob) => packageGlob.concat('/package.json'));
+  const packageJsons = packages.map((packageGlob) =>
+    packageGlob.concat('/package.json')
+  );
   tree.visit((path, file?: Readonly<FileEntry> | null) => {
     if (file) {
       for (const packageJson of packageJsons) {
-        const match = minimatch(path.startsWith('/') ? path.slice(1) : path, packageJson, {
-          matchBase: false,
-        });
+        const match = minimatch(
+          path.startsWith('/') ? path.slice(1) : path,
+          packageJson,
+          {
+            matchBase: false,
+          }
+        );
         if (match) {
           const pkg: IPackageJson = JSON.parse(file.content.toString());
           pkgs.push(pkg.name);

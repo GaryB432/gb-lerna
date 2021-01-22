@@ -9,12 +9,19 @@ import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 type SchematicOptions = RepoOptions | PackageOptions;
 
 export class Runner {
-  private readonly logger = createConsoleLogger(false, process.stdout, process.stderr);
+  private readonly logger = createConsoleLogger(
+    false,
+    process.stdout,
+    process.stderr
+  );
   private readonly workflow: NodeWorkflow;
   private readonly reporter: Reporter;
 
   constructor(dryRun = false, force = false) {
-    const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
+    const fsHost = new virtualFs.ScopedHost(
+      new NodeJsSyncHost(),
+      normalize(process.cwd())
+    );
     const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
     this.reporter = new Reporter(this.logger, dryRun);
 
@@ -57,27 +64,31 @@ export class Runner {
     });
   }
   public createPackage(options: PackageOptions): void {
-    this.workflow.execute(this.getExecutionContext('package', options)).subscribe({
-      next: () => {
-        this.logger.info('package done');
-      },
-      error: (e: Error) => {
-        this.reporter.handleException(e);
-      },
-    });
+    this.workflow
+      .execute(this.getExecutionContext('package', options))
+      .subscribe({
+        next: () => {
+          this.logger.info('package done');
+        },
+        error: (e: Error) => {
+          this.reporter.handleException(e);
+        },
+      });
   }
   public createModule(options: ModuleOptions): void {
-    this.workflow.execute(this.getExecutionContext('module', options)).subscribe({
-      next: () => {
-        this.logger.info('module done');
-      },
-      complete: () => {
-        this.logger.info('I guess I am complete');
-      },
-      error: (e: Error) => {
-        this.reporter.handleException(e);
-      },
-    });
+    this.workflow
+      .execute(this.getExecutionContext('module', options))
+      .subscribe({
+        next: () => {
+          this.logger.info('module done');
+        },
+        complete: () => {
+          this.logger.info('I guess I am complete');
+        },
+        error: (e: Error) => {
+          this.reporter.handleException(e);
+        },
+      });
   }
   public showMessages(): void {
     const content = Buffer.from('testing', 'utf8');

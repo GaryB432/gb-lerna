@@ -23,7 +23,9 @@ export default function (options: IOptions): Rule {
   const appname = path.basename(process.cwd());
   options.packageName = options.packageName || appname;
 
-  const templatedSource = apply(url('./files'), [applyTemplates({ ...strings, appname })]);
+  const templatedSource = apply(url('./files'), [
+    applyTemplates({ ...strings, appname }),
+  ]);
 
   return (tree: Tree, context: SchematicContext) => {
     const lernaJson = {

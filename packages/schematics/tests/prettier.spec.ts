@@ -17,7 +17,9 @@ describe('package', () => {
     const seedTree = Tree.empty();
     seedTree.create('/package.json', packageInfo);
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner.runSchematicAsync('prettier', {}, seedTree).toPromise();
+    const tree = await runner
+      .runSchematicAsync('prettier', {}, seedTree)
+      .toPromise();
 
     expect(tree.files).toEqual(['/package.json', '/.prettierrc']);
 

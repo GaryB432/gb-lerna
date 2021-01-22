@@ -45,7 +45,10 @@ export function getPackageInfo(input: string): PackageInfo {
   return { name };
 }
 
-export function getFromJsonFile<T extends ILernaJson | IPackageJson>(tree: Tree, path: string): T {
+export function getFromJsonFile<T extends ILernaJson | IPackageJson>(
+  tree: Tree,
+  path: string
+): T {
   const buffer = tree.read(path);
   if (!buffer) {
     throw new Error(`${path} not found`);

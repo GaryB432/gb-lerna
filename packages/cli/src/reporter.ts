@@ -36,25 +36,44 @@ export class Reporter {
   }
   public handleEvent(event: DryRunEvent): void {
     // this.loggingQueue.push(colors.yellow(event.kind));
-    const eventPath = event.path.startsWith('/') ? event.path.substr(1) : event.path;
+    const eventPath = event.path.startsWith('/')
+      ? event.path.substr(1)
+      : event.path;
     switch (event.kind) {
       case 'error':
         this.error = true;
-        const desc = event.description == 'alreadyExist' ? 'already exists' : 'does not exist';
+        const desc =
+          event.description == 'alreadyExist'
+            ? 'already exists'
+            : 'does not exist';
         this.logger.error(`ERROR! ${eventPath} ${desc}.`);
         break;
       case 'update':
-        this.queueMessage('UPDATE', `${eventPath} (${event.content.length} bytes)`, colors.white);
+        this.queueMessage(
+          'UPDATE',
+          `${eventPath} (${event.content.length} bytes)`,
+          colors.white
+        );
         break;
       case 'create':
-        this.queueMessage('CREATE', `${eventPath} (${event.content.length} bytes)`, colors.green);
+        this.queueMessage(
+          'CREATE',
+          `${eventPath} (${event.content.length} bytes)`,
+          colors.green
+        );
         break;
       case 'delete':
         this.queueMessage('DELETE', eventPath, colors.yellow);
         break;
       case 'rename':
-        const eventToPath = event.to.startsWith('/') ? event.to.substr(1) : event.to;
-        this.queueMessage('RENAME', `${eventPath} => ${eventToPath}`, colors.blue);
+        const eventToPath = event.to.startsWith('/')
+          ? event.to.substr(1)
+          : event.to;
+        this.queueMessage(
+          'RENAME',
+          `${eventPath} => ${eventToPath}`,
+          colors.blue
+        );
         break;
     }
   }
@@ -73,9 +92,13 @@ export class Reporter {
       this.queueMessage('DRY RUN', 'nothing done', colors.yellow);
     }
     if (this.error) {
-      this.queueMessage('ERROR', 'see above', (s: string) => colors.bgRed(colors.white(s)));
+      this.queueMessage('ERROR', 'see above', (s: string) =>
+        colors.bgRed(colors.white(s))
+      );
     } else {
-      this.queueMessage('SUCCESS', '', (s: string) => colors.bgGreen(colors.white(s)));
+      this.queueMessage('SUCCESS', '', (s: string) =>
+        colors.bgGreen(colors.white(s))
+      );
     }
     this.getMessages().forEach((log) => this.logger.info(log));
     this.queue = [];

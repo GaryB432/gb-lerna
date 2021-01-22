@@ -11,7 +11,12 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import { getFromJsonFile, getPackageInfo, IPackageJson, PackageInfo } from '../utils';
+import {
+  getFromJsonFile,
+  getPackageInfo,
+  IPackageJson,
+  PackageInfo,
+} from '../utils';
 
 interface IOptions {
   name: string;
@@ -34,7 +39,9 @@ function packageName(p: PackageInfo): string {
 export default function (options: IOptions): Rule {
   const packageInfo = getPackageInfo(options.name);
 
-  const templatedSource = apply(url('./files'), [applyTemplates({ ...packageInfo, ...strings })]);
+  const templatedSource = apply(url('./files'), [
+    applyTemplates({ ...packageInfo, ...strings }),
+  ]);
 
   return (tree: Tree, context: SchematicContext) => {
     /* eslint-disable sort-keys */
