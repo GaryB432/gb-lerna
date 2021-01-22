@@ -34,7 +34,6 @@
     "@angular-devkit/core": "^11.0.7",
     "@angular-devkit/schematics": "^11.0.7",
     "@gb-lerna/schematics": "^1.1.0-alpha.2",
-    "@schematics/schematics": "^0.1100.7",
     "colors": "^1.4.0",
     "commander": "^7.0.0",
     "symbol-observable": "^2.0.3"
