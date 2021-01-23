@@ -55,9 +55,6 @@ export class Runner {
   }
   public createRepository(options: RepoOptions): void {
     this.workflow.execute(this.getExecutionContext('repo', options)).subscribe({
-      next: () => {
-        this.logger.info('repo done');
-      },
       error: (e: Error) => {
         this.reporter.handleException(e);
       },
@@ -67,9 +64,6 @@ export class Runner {
     this.workflow
       .execute(this.getExecutionContext('package', options))
       .subscribe({
-        next: () => {
-          this.logger.info('package done');
-        },
         error: (e: Error) => {
           this.reporter.handleException(e);
         },
@@ -79,12 +73,6 @@ export class Runner {
     this.workflow
       .execute(this.getExecutionContext('module', options))
       .subscribe({
-        next: () => {
-          this.logger.info('module done');
-        },
-        complete: () => {
-          this.logger.info('I guess I am complete');
-        },
         error: (e: Error) => {
           this.reporter.handleException(e);
         },

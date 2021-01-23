@@ -1,8 +1,6 @@
-import { SchemaValidationException } from '@angular-devkit/core/src/json/schema';
 import { LoggerApi } from '@angular-devkit/core/src/logger';
 import { DryRunEvent } from '@angular-devkit/schematics';
 import { LifeCycleEvent } from '@angular-devkit/schematics/src/workflow';
-import { InvalidInputOptions } from '@angular-devkit/schematics/tools/schema-option-transform';
 import * as colors from 'colors/safe';
 
 class Message {
