@@ -51,6 +51,7 @@ export default function (options: IOptions): Rule {
       description: '',
       private: false,
       devDependencies: {
+        rimraf: '^3.0.2',
         typescript: '^3.7.2',
       },
       files: ['lib'],
@@ -58,6 +59,7 @@ export default function (options: IOptions): Rule {
       license: 'ISC',
       main: 'lib/index.js',
       scripts: {
+        prebuild: 'rimraf lib',
         build: 'tsc --pretty',
         prepare: 'npm run build',
       },
