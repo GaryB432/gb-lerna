@@ -7,6 +7,7 @@ import {
   FileEntry,
   MergeStrategy,
   mergeWith,
+  noop,
   Rule,
   SchematicContext,
   Tree,
@@ -28,7 +29,7 @@ interface IOptions {
 }
 
 function getPackageNames(tree: Tree): string[] {
-  const pkgs: string[] = [];
+  const names: string[] = [];
   const { packages } = getFromJsonFile<ILernaJson>(tree, 'lerna.json');
   const packageJsons = packages.map((packageGlob) =>
     packageGlob.concat('/package.json')
@@ -45,28 +46,35 @@ function getPackageNames(tree: Tree): string[] {
         );
         if (match) {
           const pkg: IPackageJson = JSON.parse(file.content.toString());
-          pkgs.push(pkg.name);
+          names.push(pkg.name);
         }
       }
     }
   });
-  return pkgs;
+  return names;
 }
 
 export default function (options: IOptions): Rule {
   const moduleName = options.name;
 
   return (tree: Tree, context: SchematicContext) => {
-    // tree.create(`./packages/${strings.dasherize(packageInfo.name)}/src/.gitkeep`, '');
     const packageNames = getPackageNames(tree);
     const packageInfo = getPackageInfo(options.packageName || packageNames[0]);
-    const templatedSource = apply(url('./files'), [
+    const templatedSource = apply(url('./files/functions/src'), [
+      applyTemplates({ ...packageInfo, ...strings, moduleName }),
+    ]);
+    const templatedTests = apply(url('./files/functions/test'), [
       applyTemplates({ ...packageInfo, ...strings, moduleName }),
     ]);
 
     return chain([
       branchAndMerge(
-        chain([mergeWith(templatedSource, MergeStrategy.Overwrite)]),
+        chain([
+          mergeWith(templatedSource, MergeStrategy.Overwrite),
+          options.test
+            ? mergeWith(templatedTests, MergeStrategy.Overwrite)
+            : noop(),
+        ]),
         MergeStrategy.AllowOverwriteConflict
       ),
     ])(tree, context);

@@ -50,10 +50,9 @@ program
   .command('module <name> [scope]')
   .description('create a new class or module')
   .addOption(
-    new Option('-k, --kind <kind>', 'the kind of module').choices([
-      'class',
-      'functions',
-    ])
+    new Option('-k, --kind <kind>', 'the kind of module')
+      .choices(['class', 'functions'])
+      .default('functions')
   )
   .option('--no-test', 'skip spec file')
   .action((name: string, packageName: string, options: ModuleOptions) => {
