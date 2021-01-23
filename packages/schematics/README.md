@@ -25,7 +25,7 @@ lerna add @sample/api --scope=@sample/website
 lerna add @sample/api --scope=@sample/admin
 npm install
 npm run format
-npm test
+npm test -- --coverage
 ```
 
 ## Add another package to your project
