@@ -2,11 +2,9 @@
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-import { Command } from 'commander';
+import { Command, Option } from 'commander';
 import { Runner } from './runner';
-import { PackageOptions, RepoOptions } from './types';
-
-export const collection = '@gb-lerna/schematics';
+import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
 export interface ProgramOptions {
   force: boolean;
@@ -46,6 +44,25 @@ program
   .action((name: string, options: PackageOptions) => {
     options.name = name;
     createRunner(getProgramOptions(program.opts())).createPackage(options);
+  });
+
+program
+  .command('module <name> [scope]')
+  .description('create a new class or module')
+  .addOption(
+    new Option('-k, --kind <kind>', 'the kind of module')
+      .choices(['class', 'functions'])
+      .default('functions')
+  )
+  .option('--no-test', 'skip spec file')
+  .action((name: string, packageName: string, options: ModuleOptions) => {
+    const { test, kind } = options;
+    createRunner(getProgramOptions(program.opts())).createModule({
+      kind,
+      name,
+      packageName,
+      test,
+    });
   });
 
 // program

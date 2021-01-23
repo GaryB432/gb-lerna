@@ -1,6 +1,6 @@
 {
   "name": "@gb-lerna/schematics",
-  "version": "1.0.0",
+  "version": "1.1.0-alpha.3",
   "private": false,
   "author": {
     "name": "Gary Bortosky",
@@ -33,7 +33,8 @@
   "schematics": "./lib/collection.json",
   "dependencies": {
     "@angular-devkit/core": "^11.0.7",
-    "@angular-devkit/schematics": "^11.0.7"
+    "@angular-devkit/schematics": "^11.0.7",
+    "minimatch": "^3.0.4"
   },
   "engines": {
     "node": ">=10 <=14"

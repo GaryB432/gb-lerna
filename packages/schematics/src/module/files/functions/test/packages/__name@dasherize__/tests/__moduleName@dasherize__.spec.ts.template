@@ -1,0 +1,10 @@
+import { add, greet } from '../src/<%= dasherize(moduleName) %>';
+
+describe('<%= moduleName %>', () => {
+  test('adds', () => {
+    expect(add(2, 3)).toEqual(5);
+  });
+  test('greets', () => {
+    expect(greet('world')).toEqual('<%= moduleName %> says: hello to world');
+  });
+});

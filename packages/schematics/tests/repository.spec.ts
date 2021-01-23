@@ -9,7 +9,11 @@ describe('repository', () => {
   it('works', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);
     const tree = await runner
-      .runSchematicAsync<IOptions>('repository', { independent: true }, Tree.empty())
+      .runSchematicAsync<IOptions>(
+        'repository',
+        { independent: true },
+        Tree.empty()
+      )
       .toPromise();
 
     expect(tree.files).toEqual(
@@ -29,7 +33,9 @@ describe('repository', () => {
       ])
     );
 
-    expect(tree.read('lerna.json')?.toString()).toMatch(/"version": "independent"/);
+    expect(tree.read('lerna.json')?.toString()).toMatch(
+      /"version": "independent"/
+    );
   });
   it('works with packageName', async () => {
     const runner = new SchematicTestRunner('schematics', collectionPath);

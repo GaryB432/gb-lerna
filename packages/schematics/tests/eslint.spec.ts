@@ -17,18 +17,26 @@ describe('package', () => {
     const seedTree = Tree.empty();
     seedTree.create('/package.json', packageInfo);
     const runner = new SchematicTestRunner('schematics', collectionPath);
-    const tree = await runner.runSchematicAsync('eslint', {}, seedTree).toPromise();
+    const tree = await runner
+      .runSchematicAsync('eslint', {}, seedTree)
+      .toPromise();
 
     expect(tree.files).toEqual(['/package.json', '/.eslintrc']);
 
     const packageJson: IPackageJson = getFromJsonFile(tree, 'package.json');
     packageJson.devDependencies = packageJson.devDependencies || {};
 
-    expect(packageJson.devDependencies['@typescript-eslint/eslint-plugin']).toBeDefined();
-    expect(packageJson.devDependencies['@typescript-eslint/parser']).toBeDefined();
+    expect(
+      packageJson.devDependencies['@typescript-eslint/eslint-plugin']
+    ).toBeDefined();
+    expect(
+      packageJson.devDependencies['@typescript-eslint/parser']
+    ).toBeDefined();
     expect(packageJson.devDependencies['eslint']).toBeDefined();
     expect(packageJson.devDependencies['eslint-config-prettier']).toBeDefined();
-    expect(packageJson.devDependencies['eslint-formatter-friendly']).toBeDefined();
+    expect(
+      packageJson.devDependencies['eslint-formatter-friendly']
+    ).toBeDefined();
     expect(packageJson.devDependencies['eslint-plugin-prettier']).toBeDefined();
   });
 });

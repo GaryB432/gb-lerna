@@ -8,7 +8,7 @@ Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js
 ## Installation
 
 ```
-npm install -g lerna @angular-devkit/schematics-cli
+npm install -g lerna @angular-devkit/schematics-cli @gb-lerna/schematics
 ```
 
 ## Create a new monorepo
@@ -16,15 +16,16 @@ npm install -g lerna @angular-devkit/schematics-cli
 ```
 mkdir sample-project
 cd sample-project
-git init
-schematics @gb-lerna/schematics:repo @sample/website
-schematics @gb-lerna/schematics:package @sample/api
-schematics @gb-lerna/schematics:package @sample/admin
-npm install
+schematics @gb-lerna/schematics:repo --packageName @sample/website --no-independent
+schematics @gb-lerna/schematics:package --name @sample/api
+schematics @gb-lerna/schematics:package --name @sample/admin
+schematics @gb-lerna/schematics:module --name lol --packageName @sample/admin
 lerna bootstrap
 lerna add @sample/api --scope=@sample/website
 lerna add @sample/api --scope=@sample/admin
-npm test
+npm install
+npm run format
+npm test -- --coverage
 ```
 
 ## Add another package to your project
@@ -40,12 +41,13 @@ schematics gb-lerna/schematics:package @sample/tools
 schematics gb-lerna/schematics: --list-schematics
 ```
 
-| schematic         | purpose                            |
-| ----------------- | ---------------------------------- |
-| eslint            | add eslint to your project         |
-| package           | add a new package to your monorepo |
-| prettier          | add prettier to your project       |
-| repository (repo) | create a new monorepo project      |
+| schematic         | purpose                                         |
+| ----------------- | ----------------------------------------------- |
+| eslint            | add eslint to your project                      |
+| module            | add a new class or function module to a package |
+| package           | add a new package to your monorepo              |
+| prettier          | add prettier to your project                    |
+| repository (repo) | create a new monorepo project                   |
 
 ### See also
 

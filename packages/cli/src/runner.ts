@@ -2,20 +2,26 @@ import { normalize, schema, virtualFs } from '@angular-devkit/core';
 import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
-import { NodeWorkflow, validateOptionsWithSchema } from '@angular-devkit/schematics/tools';
-import { collection } from '.';
+import { NodeWorkflow } from '@angular-devkit/schematics/tools';
 import { Reporter } from './reporter';
-import { PackageOptions, RepoOptions } from './types';
+import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
 type SchematicOptions = RepoOptions | PackageOptions;
 
 export class Runner {
-  private readonly logger = createConsoleLogger(false, process.stdout, process.stderr);
+  private readonly logger = createConsoleLogger(
+    false,
+    process.stdout,
+    process.stderr
+  );
   private readonly workflow: NodeWorkflow;
   private readonly reporter: Reporter;
 
   constructor(dryRun = false, force = false) {
-    const fsHost = new virtualFs.ScopedHost(new NodeJsSyncHost(), normalize(process.cwd()));
+    const fsHost = new virtualFs.ScopedHost(
+      new NodeJsSyncHost(),
+      normalize(process.cwd())
+    );
     const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
     this.reporter = new Reporter(this.logger, dryRun);
 
@@ -25,13 +31,13 @@ export class Runner {
       registry,
       resolvePaths: [process.cwd(), __dirname],
     });
-    registry.addPostTransform(schema.transforms.addUndefinedDefaults);
-    this.workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
+    // registry.addPostTransform(schema.transforms.addUndefinedDefaults);
+    // this.workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
     this.workflow.reporter.subscribe({
       next: (event) => this.reporter.handleEvent(event),
     });
     this.workflow.lifeCycle.subscribe({
-      next: (evemt) => this.reporter.handleLifecycle(evemt),
+      next: (event) => this.reporter.handleLifecycle(event),
     });
   }
   public getExecutionContext(
@@ -40,7 +46,7 @@ export class Runner {
   ): WorkflowExecutionContext {
     return {
       allowPrivate: false,
-      collection,
+      collection: '@gb-lerna/schematics',
       debug: false,
       logger: this.logger,
       options,
@@ -49,17 +55,28 @@ export class Runner {
   }
   public createRepository(options: RepoOptions): void {
     this.workflow.execute(this.getExecutionContext('repo', options)).subscribe({
-      next: () => {
-        this.logger.info('repo done');
+      error: (e: Error) => {
+        this.reporter.handleException(e);
       },
     });
   }
   public createPackage(options: PackageOptions): void {
-    this.workflow.execute(this.getExecutionContext('package', options)).subscribe({
-      next: () => {
-        this.logger.info('package done');
-      },
-    });
+    this.workflow
+      .execute(this.getExecutionContext('package', options))
+      .subscribe({
+        error: (e: Error) => {
+          this.reporter.handleException(e);
+        },
+      });
+  }
+  public createModule(options: ModuleOptions): void {
+    this.workflow
+      .execute(this.getExecutionContext('module', options))
+      .subscribe({
+        error: (e: Error) => {
+          this.reporter.handleException(e);
+        },
+      });
   }
   public showMessages(): void {
     const content = Buffer.from('testing', 'utf8');

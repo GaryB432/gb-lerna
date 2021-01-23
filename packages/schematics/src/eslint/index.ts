@@ -14,7 +14,9 @@ import {
 import { IPackageJson, getFromJsonFile } from '../utils';
 
 export default function (): Rule {
-  const templatedSource = apply(url('./files'), [applyTemplates({ ...strings })]);
+  const templatedSource = apply(url('./files'), [
+    applyTemplates({ ...strings }),
+  ]);
 
   return (tree: Tree, context: SchematicContext) => {
     const packageJson = getFromJsonFile<IPackageJson>(tree, '/package.json');
@@ -29,7 +31,8 @@ export default function (): Rule {
     packageJson.devDependencies['eslint-plugin-prettier'] = '^3.3.1';
 
     packageJson.scripts = packageJson.scripts || {};
-    packageJson.scripts['posttest'] = 'eslint "./packages/**/src/**/*.ts" --config .eslintrc';
+    packageJson.scripts['posttest'] =
+      'eslint "./packages/**/src/**/*.ts" --config .eslintrc';
 
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
 
