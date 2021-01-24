@@ -52,7 +52,7 @@ export default function (options: IOptions): Rule {
       private: false,
       devDependencies: {
         rimraf: '^3.0.2',
-        typescript: '^3.7.2',
+        typescript: '^4.1.3',
       },
       files: ['lib'],
       keywords: [],
