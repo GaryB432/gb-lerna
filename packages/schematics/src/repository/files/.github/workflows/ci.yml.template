@@ -1,0 +1,29 @@
+name: Lerna CI
+on:
+  push:
+    branches:
+      - master
+      - next
+      - 'test/*'
+  pull_request:
+    branches:
+      - master
+      - next
+      - 'test/*'
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Use Node.js ${{ matrix.node-version }}
+    strategy:
+      matrix:
+        node-version: [10, 12, 14]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: bootstrap ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install -g lerna
+      - run: lerna bootstrap --hoist
+      - run: npm test
