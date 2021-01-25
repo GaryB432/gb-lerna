@@ -29,7 +29,7 @@ program
   .option('-d, --dryRun', 'dry run only');
 
 program
-  .command('repo <initialPackage>')
+  .command('repo [initialPackage]')
   .alias('repository')
   .description('create a new monorepo with initial package')
   .option('-i, --independent', 'version packages independently')
