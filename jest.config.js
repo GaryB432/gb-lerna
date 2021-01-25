@@ -6,7 +6,10 @@ module.exports = {
   collectCoverageFrom: ['**/src/**/*.ts'],
   reporters: [
     'default',
-    ['jest-junit', { suiteName: 'jest tests', suiteNameTemplate: '{filepath}' }],
+    [
+      'jest-junit',
+      { suiteName: 'jest tests', suiteNameTemplate: '{filepath}' },
+    ],
   ],
   testEnvironment: 'node',
   testMatch: ['**/tests/**/*.ts'],
