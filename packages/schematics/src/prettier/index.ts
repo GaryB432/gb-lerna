@@ -24,8 +24,8 @@ export default function (): Rule {
     packageJson.devDependencies = packageJson.devDependencies || {};
     packageJson.scripts = packageJson.scripts || {};
 
-    packageJson.devDependencies['prettier'] = '^2.0.5';
-    packageJson.scripts['format'] = 'prettier --write "**/*.ts"  "!**/lib/**"';
+    packageJson.devDependencies['prettier'] = '^2.2.1';
+    packageJson.scripts['format'] = 'prettier --write .';
 
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
 
