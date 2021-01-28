@@ -31,9 +31,7 @@ export default function (): Rule {
     packageJson.devDependencies['eslint-plugin-prettier'] = '^3.3.1';
 
     packageJson.scripts = packageJson.scripts || {};
-    packageJson.scripts['posttest'] =
-      'eslint "./packages/**/src/**/*.ts" --config .eslintrc';
-
+    packageJson.scripts['posttest'] = 'eslint --ext js,ts .';
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
 
     return chain([

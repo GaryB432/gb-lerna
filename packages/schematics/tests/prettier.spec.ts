@@ -21,7 +21,11 @@ describe('package', () => {
       .runSchematicAsync('prettier', {}, seedTree)
       .toPromise();
 
-    expect(tree.files).toEqual(['/package.json', '/.prettierrc']);
+    expect(tree.files).toEqual([
+      '/package.json',
+      '/.prettierignore',
+      '/.prettierrc',
+    ]);
 
     const packageJson: IPackageJson = getFromJsonFile(tree, 'package.json');
 

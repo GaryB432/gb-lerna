@@ -20,7 +20,7 @@
   },
   "scripts": {
     "test": "jest",
-    "posttest": "eslint \"./packages/**/src/**/*.ts\" --config .eslintrc",
+    "posttest": "eslint --ext js,ts .",
     "format": "prettier --write ."
   },
   "dependencies": {

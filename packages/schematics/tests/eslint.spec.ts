@@ -21,7 +21,11 @@ describe('package', () => {
       .runSchematicAsync('eslint', {}, seedTree)
       .toPromise();
 
-    expect(tree.files).toEqual(['/package.json', '/.eslintrc']);
+    expect(tree.files).toEqual([
+      '/package.json',
+      '/.eslintignore',
+      '/.eslintrc',
+    ]);
 
     const packageJson: IPackageJson = getFromJsonFile(tree, 'package.json');
     packageJson.devDependencies = packageJson.devDependencies || {};
