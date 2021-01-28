@@ -40,6 +40,8 @@
     "node": ">=10 <=14"
   },
   "devDependencies": {
+    "@types/minimatch": "^3.0.3",
+    "@types/node": "^14.14.22",
     "cpx": "^1.5.0",
     "rimraf": "^3.0.2",
     "typescript": "^4.1.3"
