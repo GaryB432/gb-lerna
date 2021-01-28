@@ -7,7 +7,9 @@ class MockLogger implements LoggerApi {
   createChild(_name: string): Logger {
     throw new Error('not implemented');
   }
-  log(_level: LogLevel, _message: string, _metadata?: JsonObject): void {}
+  log(_level: LogLevel, _message: string, _metadata?: JsonObject): void {
+    this.count++;
+  }
   debug(_message: string, _metadata?: JsonObject): void {
     this.count++;
   }
