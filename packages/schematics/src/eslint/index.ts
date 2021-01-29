@@ -21,14 +21,15 @@ export default function (): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const packageJson = getFromJsonFile<IPackageJson>(tree, '/package.json');
 
-    packageJson.devDependencies = packageJson.devDependencies || {};
-
-    packageJson.devDependencies['@typescript-eslint/eslint-plugin'] = '^4.14.1';
-    packageJson.devDependencies['@typescript-eslint/parser'] = '^4.14.1';
-    packageJson.devDependencies['eslint'] = '^7.18.0';
-    packageJson.devDependencies['eslint-config-prettier'] = '^7.2.0';
-    packageJson.devDependencies['eslint-formatter-friendly'] = '^7.0.0';
-    packageJson.devDependencies['eslint-plugin-prettier'] = '^3.3.1';
+    packageJson.devDependencies = {
+      ...packageJson.devDependencies,
+      '@typescript-eslint/eslint-plugin': '^4.14.1',
+      '@typescript-eslint/parser': '^4.14.1',
+      eslint: '^7.18.0',
+      'eslint-config-prettier': '^7.2.0',
+      'eslint-formatter-friendly': '^7.0.0',
+      'eslint-plugin-prettier': '^3.3.1',
+    };
 
     packageJson.scripts = packageJson.scripts || {};
     packageJson.scripts['posttest'] = 'eslint --ext js,ts .';
