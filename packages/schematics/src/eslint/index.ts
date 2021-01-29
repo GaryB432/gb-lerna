@@ -27,7 +27,6 @@ export default function (): Rule {
       '@typescript-eslint/parser': '^4.14.1',
       eslint: '^7.18.0',
       'eslint-config-prettier': '^7.2.0',
-      'eslint-formatter-friendly': '^7.0.0',
       'eslint-plugin-prettier': '^3.3.1',
     };
 

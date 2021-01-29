@@ -12,7 +12,7 @@ const packageInfo = `{
   }
 }`;
 
-describe('package', () => {
+describe('eslint', () => {
   it('works', async () => {
     const seedTree = Tree.empty();
     seedTree.create('/package.json', packageInfo);
@@ -29,6 +29,7 @@ describe('package', () => {
 
     const packageJson: IPackageJson = getFromJsonFile(tree, 'package.json');
     packageJson.devDependencies = packageJson.devDependencies || {};
+    packageJson.scripts = packageJson.scripts || {};
 
     expect(
       packageJson.devDependencies['@typescript-eslint/eslint-plugin']
@@ -38,9 +39,8 @@ describe('package', () => {
     ).toBeDefined();
     expect(packageJson.devDependencies['eslint']).toBeDefined();
     expect(packageJson.devDependencies['eslint-config-prettier']).toBeDefined();
-    expect(
-      packageJson.devDependencies['eslint-formatter-friendly']
-    ).toBeDefined();
     expect(packageJson.devDependencies['eslint-plugin-prettier']).toBeDefined();
+    expect(packageJson.scripts['test']).toEqual('yes please');
+    expect(packageJson.scripts['posttest']).toEqual('eslint --ext js,ts .');
   });
 });
