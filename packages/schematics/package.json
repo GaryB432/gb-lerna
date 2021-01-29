@@ -17,7 +17,7 @@
   ],
   "license": "ISC",
   "scripts": {
-    "postbuild": "cpx src/{collection.json,**/schema.json,**/files/**/*,**/files/**/.*/**,**/files/**/.*} lib ",
+    "postbuild": "cpx src/{**/*.json,**/files/**/{*,.*/**,.??*}} lib",
     "prebuild": "rimraf lib",
     "build": "tsc --pretty",
     "prepare": "npm run build"
