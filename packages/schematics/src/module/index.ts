@@ -21,11 +21,11 @@ import {
   IPackageJson,
 } from '../utils';
 
-interface IOptions {
-  packageName: string;
+export interface ModuleOptions {
+  kind?: 'class' | 'functions';
   name: string;
-  kind: string;
-  test: boolean;
+  packageName?: string;
+  test?: boolean;
 }
 
 function getPackageNames(tree: Tree): string[] {
@@ -54,16 +54,19 @@ function getPackageNames(tree: Tree): string[] {
   return names;
 }
 
-export default function (options: IOptions): Rule {
+export default function (options: ModuleOptions): Rule {
   const moduleName = options.name;
+  const kind = options.kind || 'functions';
 
   return (tree: Tree, context: SchematicContext) => {
     const packageNames = getPackageNames(tree);
-    const packageInfo = getPackageInfo(options.packageName || packageNames[0]);
-    const templatedSource = apply(url('./files/functions/src'), [
+    const packageInfo = getPackageInfo(
+      options.packageName || packageNames[0] || 'package1'
+    );
+    const templatedSource = apply(url(`./files/${kind}/src`), [
       applyTemplates({ ...packageInfo, ...strings, moduleName }),
     ]);
-    const templatedTests = apply(url('./files/functions/test'), [
+    const templatedTests = apply(url(`./files/${kind}/test`), [
       applyTemplates({ ...packageInfo, ...strings, moduleName }),
     ]);
 

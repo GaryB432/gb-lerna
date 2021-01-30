@@ -35,6 +35,13 @@ cd your-app
 schematics gb-lerna/schematics:package @sample/tools
 ```
 
+## Add a class or functions module to your project
+
+```
+cd your-app
+schematics gb-lerna/schematics:module math @sample/tools --kind functions
+```
+
 ## Schematics
 
 ```
