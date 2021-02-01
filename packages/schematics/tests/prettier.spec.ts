@@ -12,7 +12,7 @@ const packageInfo = `{
   }
 }`;
 
-describe('package', () => {
+describe('prettier', () => {
   it('works', async () => {
     const seedTree = Tree.empty();
     seedTree.create('/package.json', packageInfo);

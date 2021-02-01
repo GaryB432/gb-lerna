@@ -1,10 +1,10 @@
 import { add, greet } from '../src';
 
 describe('<%= name %> module', () => {
-  it('should add', () => {
+  test('adds', () => {
     expect(add(2, 3)).toEqual(5);
   });
-  it('should greet', () => {
+  test('greets', () => {
     expect(greet('world')).toEqual('<%= name %> says: hello to world');
   });
 });
