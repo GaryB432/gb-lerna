@@ -1,12 +1,12 @@
-import { normalize, schema, virtualFs } from '@angular-devkit/core';
-import { createConsoleLogger, NodeJsSyncHost } from '@angular-devkit/core/node';
+import { schema } from '@angular-devkit/core';
+import { createConsoleLogger } from '@angular-devkit/core/node';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
 import { NodeWorkflow } from '@angular-devkit/schematics/tools';
 import { Reporter } from './reporter';
 import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
-type SchematicOptions = RepoOptions | PackageOptions;
+type SchematicOptions = RepoOptions | PackageOptions | ModuleOptions;
 
 export class Runner {
   private readonly logger = createConsoleLogger(
@@ -18,18 +18,15 @@ export class Runner {
   private readonly reporter: Reporter;
 
   constructor(dryRun = false, force = false) {
-    const fsHost = new virtualFs.ScopedHost(
-      new NodeJsSyncHost(),
-      normalize(process.cwd())
-    );
     const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
     this.reporter = new Reporter(this.logger, dryRun);
 
-    this.workflow = new NodeWorkflow(fsHost, {
+    this.workflow = new NodeWorkflow(process.cwd(), {
       dryRun,
       force,
       registry,
       resolvePaths: [process.cwd(), __dirname],
+      schemaValidation: true,
     });
     // registry.addPostTransform(schema.transforms.addUndefinedDefaults);
     // this.workflow.engineHost.registerOptionsTransform(validateOptionsWithSchema(registry));
