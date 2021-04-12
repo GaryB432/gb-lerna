@@ -24,7 +24,7 @@ describe('eslint', () => {
     expect(tree.files).toEqual([
       '/package.json',
       '/.eslintignore',
-      '/.eslintrc',
+      '/.eslintrc.js',
     ]);
 
     const packageJson: IPackageJson = getFromJsonFile(tree, 'package.json');

@@ -16,7 +16,7 @@
   },
   "scripts": {
     "test": "jest",
-    "posttest": "eslint --ext js,ts .",
+    "posttest": "eslint --ext ts .",
     "format": "prettier --write ."
   },
   "dependencies": {

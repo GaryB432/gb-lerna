@@ -38,7 +38,7 @@ export class Reporter {
       ? event.path.substr(1)
       : event.path;
     switch (event.kind) {
-      case 'error':
+      case 'error': {
         this.error = true;
         const desc =
           event.description == 'alreadyExist'
@@ -46,6 +46,7 @@ export class Reporter {
             : 'does not exist';
         this.logger.error(`ERROR! ${eventPath} ${desc}.`);
         break;
+      }
       case 'update':
         this.queueMessage(
           'UPDATE',
@@ -63,7 +64,7 @@ export class Reporter {
       case 'delete':
         this.queueMessage('DELETE', eventPath, colors.yellow);
         break;
-      case 'rename':
+      case 'rename': {
         const eventToPath = event.to.startsWith('/')
           ? event.to.substr(1)
           : event.to;
@@ -73,6 +74,7 @@ export class Reporter {
           colors.blue
         );
         break;
+      }
     }
   }
   public handleLifecycle(event: LifeCycleEvent): void {
