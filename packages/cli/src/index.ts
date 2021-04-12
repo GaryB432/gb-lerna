@@ -7,8 +7,8 @@ import { Runner } from './runner';
 import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
 export interface ProgramOptions {
-  force: boolean;
   dryRun: boolean;
+  force: boolean;
 }
 
 function createRunner(o: Partial<ProgramOptions>): Runner {

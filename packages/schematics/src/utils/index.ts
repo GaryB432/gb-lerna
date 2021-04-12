@@ -1,6 +1,7 @@
 import { strings } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
+/* eslint-disable @typescript-eslint/member-ordering*/
 export interface IPackageJson {
   author?: string;
   description?: string;
@@ -32,6 +33,7 @@ export interface ILernaJson {
   version: string;
   packages: string[];
 }
+/* eslint-enable @typescript-eslint/member-ordering*/
 
 export function getPackageInfo(input: string): PackageInfo {
   const parts = input.split('/');

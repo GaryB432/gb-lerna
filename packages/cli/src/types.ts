@@ -8,8 +8,8 @@ export interface PackageOptions {
 }
 
 export interface ModuleOptions {
-  packageName: string;
-  name: string;
   kind: string;
+  name: string;
+  packageName: string;
   test: boolean;
 }

@@ -15,6 +15,23 @@ export class Reporter {
   public error = false;
   private queue: Message[] = [];
   public constructor(private logger: LoggerApi, private dryRun: boolean) {}
+  public complete(dryRun = this.dryRun): void {
+    if (dryRun) {
+      this.queueMessage('DRY RUN', 'nothing done', colors.yellow);
+    }
+    if (this.error) {
+      this.queueMessage('ERROR', 'see above', (s: string) =>
+        colors.bgRed(colors.white(s))
+      );
+    } else {
+      this.queueMessage('SUCCESS', '', (s: string) =>
+        colors.bgGreen(colors.white(s))
+      );
+    }
+    this.getMessages().forEach((log) => this.logger.info(log));
+    this.queue = [];
+    this.error = false;
+  }
   public getMessages(): string[] {
     const pad = new Array(10).fill(' ').join('');
     const noteLength = this.queue.reduce((a, b) => {
@@ -24,13 +41,6 @@ export class Reporter {
       const note = m.note.concat(pad).substr(0, noteLength);
       return [colors.white('gb-lerna'), m.format(note), m.text].join(' ');
     });
-  }
-  public queueMessage(
-    note: string,
-    text: string,
-    format: (s: string) => string = colors.white
-  ): void {
-    this.queue.push(new Message(format, note, text));
   }
   public handleEvent(event: DryRunEvent): void {
     // this.loggingQueue.push(colors.yellow(event.kind));
@@ -77,31 +87,21 @@ export class Reporter {
       }
     }
   }
-  public handleLifecycle(event: LifeCycleEvent): void {
-    if (event.kind == 'workflow-end') {
-      this.complete();
-    }
-  }
   public handleException(e: Error): void {
     this.error = true;
     this.queueMessage('ERROR', e.message, colors.red);
     this.complete();
   }
-  public complete(dryRun = this.dryRun): void {
-    if (dryRun) {
-      this.queueMessage('DRY RUN', 'nothing done', colors.yellow);
+  public handleLifecycle(event: LifeCycleEvent): void {
+    if (event.kind == 'workflow-end') {
+      this.complete();
     }
-    if (this.error) {
-      this.queueMessage('ERROR', 'see above', (s: string) =>
-        colors.bgRed(colors.white(s))
-      );
-    } else {
-      this.queueMessage('SUCCESS', '', (s: string) =>
-        colors.bgGreen(colors.white(s))
-      );
-    }
-    this.getMessages().forEach((log) => this.logger.info(log));
-    this.queue = [];
-    this.error = false;
+  }
+  public queueMessage(
+    note: string,
+    text: string,
+    format: (s: string) => string = colors.white
+  ): void {
+    this.queue.push(new Message(format, note, text));
   }
 }

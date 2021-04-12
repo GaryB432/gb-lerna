@@ -14,8 +14,8 @@ export class Runner {
     process.stdout,
     process.stderr
   );
-  private readonly workflow: NodeWorkflow;
   private readonly reporter: Reporter;
+  private readonly workflow: NodeWorkflow;
 
   constructor(dryRun = false, force = false) {
     const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
@@ -37,6 +37,31 @@ export class Runner {
       next: (event) => this.reporter.handleLifecycle(event),
     });
   }
+  public createModule(options: ModuleOptions): void {
+    this.workflow
+      .execute(this.getExecutionContext('module', options))
+      .subscribe({
+        error: (e: Error) => {
+          this.reporter.handleException(e);
+        },
+      });
+  }
+  public createPackage(options: PackageOptions): void {
+    this.workflow
+      .execute(this.getExecutionContext('package', options))
+      .subscribe({
+        error: (e: Error) => {
+          this.reporter.handleException(e);
+        },
+      });
+  }
+  public createRepository(options: RepoOptions): void {
+    this.workflow.execute(this.getExecutionContext('repo', options)).subscribe({
+      error: (e: Error) => {
+        this.reporter.handleException(e);
+      },
+    });
+  }
   public getExecutionContext(
     schematic: string,
     options: SchematicOptions
@@ -49,31 +74,6 @@ export class Runner {
       options,
       schematic,
     };
-  }
-  public createRepository(options: RepoOptions): void {
-    this.workflow.execute(this.getExecutionContext('repo', options)).subscribe({
-      error: (e: Error) => {
-        this.reporter.handleException(e);
-      },
-    });
-  }
-  public createPackage(options: PackageOptions): void {
-    this.workflow
-      .execute(this.getExecutionContext('package', options))
-      .subscribe({
-        error: (e: Error) => {
-          this.reporter.handleException(e);
-        },
-      });
-  }
-  public createModule(options: ModuleOptions): void {
-    this.workflow
-      .execute(this.getExecutionContext('module', options))
-      .subscribe({
-        error: (e: Error) => {
-          this.reporter.handleException(e);
-        },
-      });
   }
   public showMessages(): void {
     const content = Buffer.from('testing', 'utf8');

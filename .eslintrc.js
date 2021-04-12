@@ -23,7 +23,6 @@ module.exports = {
     'prettier/prettier': 'warn',
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-unused-vars': 'off',
-    '@typescript-eslint/indent': 'off',
     '@typescript-eslint/member-ordering': [
       'warn',
       {
