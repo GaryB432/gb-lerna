@@ -1,5 +1,5 @@
 export class <%= classify(moduleName) %> {
-  constructor(private counter: number) {}
+  public constructor(private counter: number) {}
   public add(a: number): number {
     this.counter += a;
     return this.counter;
