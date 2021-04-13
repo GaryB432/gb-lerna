@@ -31,7 +31,7 @@ export default function (): Rule {
     };
 
     packageJson.scripts = packageJson.scripts || {};
-    packageJson.scripts['posttest'] = 'eslint --ext js,ts .';
+    packageJson.scripts['posttest'] = 'eslint --ext ts .';
     tree.overwrite('/package.json', JSON.stringify(packageJson, null, 2));
 
     return chain([
