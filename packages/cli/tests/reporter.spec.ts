@@ -4,25 +4,25 @@ import { Reporter } from '../src/reporter';
 
 class MockLogger implements LoggerApi {
   public count = 0;
-  createChild(_name: string): Logger {
+  public createChild(_name: string): Logger {
     throw new Error('not implemented');
   }
-  debug(_message: string, _metadata?: JsonObject): void {
+  public debug(_message: string, _metadata?: JsonObject): void {
     this.count++;
   }
-  error(_message: string, _metadata?: JsonObject): void {
+  public error(_message: string, _metadata?: JsonObject): void {
     this.count++;
   }
-  fatal(_message: string, _metadata?: JsonObject): void {
+  public fatal(_message: string, _metadata?: JsonObject): void {
     this.count++;
   }
-  info(_message: string, _metadata?: JsonObject): void {
+  public info(_message: string, _metadata?: JsonObject): void {
     this.count++;
   }
-  log(_level: LogLevel, _message: string, _metadata?: JsonObject): void {
+  public log(_level: LogLevel, _message: string, _metadata?: JsonObject): void {
     this.count++;
   }
-  warn(_message: string, _metadata?: JsonObject): void {
+  public warn(_message: string, _metadata?: JsonObject): void {
     this.count++;
   }
 }

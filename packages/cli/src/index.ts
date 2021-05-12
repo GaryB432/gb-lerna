@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/* eslint-disable @typescript-eslint/no-var-requires */
+/* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access */
 
 import { Command, Option } from 'commander';
 import { Runner } from './runner';
@@ -21,7 +21,6 @@ function getProgramOptions(o: Partial<ProgramOptions>): ProgramOptions {
   const force = o.force || false;
   return { dryRun, force };
 }
-
 const program = new Command('gb-lerna');
 program
   .version(require('../package.json').version)
