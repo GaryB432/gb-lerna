@@ -45,7 +45,7 @@ function getPackageNames(tree: Tree): string[] {
           }
         );
         if (match) {
-          const pkg: IPackageJson = JSON.parse(file.content.toString());
+          const pkg = JSON.parse(file.content.toString()) as IPackageJson;
           names.push(pkg.name);
         }
       }

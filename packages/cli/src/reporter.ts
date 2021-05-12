@@ -4,7 +4,7 @@ import { LifeCycleEvent } from '@angular-devkit/schematics/src/workflow';
 import * as colors from 'colors/safe';
 
 class Message {
-  constructor(
+  public constructor(
     public readonly format: (s: string) => string,
     public readonly note: string,
     public readonly text: string
