@@ -18,6 +18,16 @@ module.exports = {
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
   ],
+  overrides: [
+    {
+      files: ['test/**'],
+      extends: ['jest'],
+      rules: {
+        '@typescript-eslint/unbound-method': 'off',
+        'jest/unbound-method': 'error',
+      },
+    },
+  ],
   rules: {
     'prettier/prettier': 'warn',
     '@typescript-eslint/explicit-member-accessibility': 'warn',
@@ -31,5 +41,6 @@ module.exports = {
         },
       },
     ],
+    '@typescript-eslint/unbound-method': 'error',
   },
 };
