@@ -17,7 +17,7 @@ export class Runner {
   private readonly reporter: Reporter;
   private readonly workflow: NodeWorkflow;
 
-  constructor(dryRun = false, force = false) {
+  public constructor(dryRun = false, force = false) {
     const registry = new schema.CoreSchemaRegistry(formats.standardFormats);
     this.reporter = new Reporter(this.logger, dryRun);
 

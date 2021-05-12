@@ -55,5 +55,5 @@ export function getFromJsonFile<T extends ILernaJson | IPackageJson>(
   if (!buffer) {
     throw new Error(`${path} not found`);
   }
-  return JSON.parse(buffer.toString());
+  return JSON.parse(buffer.toString()) as T;
 }

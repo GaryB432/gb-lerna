@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es2017",
     "lib": ["es2017"],
-    "sourceMap": false,
+    "sourceMap": true,
     "allowJs": false,
     "strict": true,
     "declaration": true

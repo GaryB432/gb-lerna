@@ -3,25 +3,33 @@ const orderingRule = require('@typescript-eslint/eslint-plugin/dist/rules/member
 module.exports = {
   root: true,
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: ['./tsconfig.json'],
+  },
   env: {
     node: true,
     es2021: true,
     jest: true,
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'jest'],
   extends: [
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-    'prettier/@typescript-eslint',
-
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
-    'prettier/@typescript-eslint',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
     'plugin:prettier/recommended',
+  ],
+  overrides: [
+    {
+      files: ['**/*.spec.ts'],
+      rules: {
+        '@typescript-eslint/unbound-method': 'off',
+        'jest/unbound-method': 'error',
+      },
+    },
   ],
   rules: {
     'prettier/prettier': 'warn',
-    '@typescript-eslint/no-parameter-properties': 'off',
+    '@typescript-eslint/explicit-member-accessibility': 'warn',
     '@typescript-eslint/no-unused-vars': 'off',
     '@typescript-eslint/member-ordering': [
       'warn',
@@ -32,5 +40,6 @@ module.exports = {
         },
       },
     ],
+    '@typescript-eslint/unbound-method': 'error',
   },
 };
