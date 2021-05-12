@@ -20,8 +20,7 @@ module.exports = {
   ],
   overrides: [
     {
-      files: ['test/**'],
-      extends: ['jest'],
+      files: ['**/*.spec.ts'],
       rules: {
         '@typescript-eslint/unbound-method': 'off',
         'jest/unbound-method': 'error',
