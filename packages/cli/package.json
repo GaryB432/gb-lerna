@@ -29,7 +29,6 @@
     "prepare": "npm run build"
   },
   "typings": "lib/index.d.ts",
-  "gitHead": "7ed1411146f67662d40005478ed21f079341e685",
   "dependencies": {
     "@angular-devkit/core": "^12.2.1",
     "@angular-devkit/schematics": "^12.2.1",
