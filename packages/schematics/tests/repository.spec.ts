@@ -17,7 +17,7 @@ describe('repository', () => {
       .toPromise();
 
     expect(tree.files).toEqual(
-      jasmine.arrayContaining([
+      expect.arrayContaining([
         '/lerna.json',
         '/.gitignore',
         '/jest.config.js',
@@ -44,7 +44,7 @@ describe('repository', () => {
       .toPromise();
 
     expect(tree.files).toEqual(
-      jasmine.arrayContaining([
+      expect.arrayContaining([
         '/lerna.json',
         '/.gitignore',
         '/jest.config.js',
