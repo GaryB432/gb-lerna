@@ -1,9 +1,10 @@
 {
-  "$schema": "http://json-schema.org/schema",
-  "id": "GbLernaSchematicsRepo",
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "GbLernaSchematicsRepo",
   "title": "GB Lerna Repository Options Schema",
   "type": "object",
   "description": "Creates a new monorepo structure.",
+  "additionalProperties": false,
   "properties": {
     "packageName": {
       "type": "string",
