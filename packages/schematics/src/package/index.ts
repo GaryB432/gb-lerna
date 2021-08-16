@@ -44,7 +44,6 @@ export default function (options: IOptions): Rule {
   ]);
 
   return (tree: Tree, context: SchematicContext) => {
-    /* eslint-disable sort-keys */
     const packageJson: IPackageJson = {
       name: packageName(packageInfo),
       version: lernaPublishVersion(tree) || '0.0.0',
