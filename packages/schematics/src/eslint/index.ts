@@ -28,6 +28,7 @@ export default function (): Rule {
       eslint: '^7.32.0',
       'eslint-config-prettier': '^8.3.0',
       'eslint-plugin-prettier': '^3.4.0',
+      'eslint-plugin-jest': '^24.4.0',
     };
 
     packageJson.scripts = packageJson.scripts || {};

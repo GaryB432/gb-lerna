@@ -40,6 +40,7 @@ describe('eslint', () => {
     expect(packageJson.devDependencies['eslint']).toBeDefined();
     expect(packageJson.devDependencies['eslint-config-prettier']).toBeDefined();
     expect(packageJson.devDependencies['eslint-plugin-prettier']).toBeDefined();
+    expect(packageJson.devDependencies['eslint-plugin-jest']).toBeDefined();
     expect(packageJson.scripts['test']).toEqual('yes please');
     expect(packageJson.scripts['posttest']).toEqual('eslint --ext ts .');
   });
