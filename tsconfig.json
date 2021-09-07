@@ -3,10 +3,10 @@
     "module": "commonjs",
     "target": "es2017",
     "lib": ["es2017"],
-    "sourceMap": true,
+    "sourceMap": false,
     "allowJs": false,
     "strict": true,
-    "declaration": true
+    "declaration": false
   },
   "exclude": ["node_modules"]
 }
