@@ -17,11 +17,11 @@ npm install -g @gb-lerna/cli
 mkdir sample-project
 cd sample-project
 git init
-gb-lerna repo @sample/website --no-independent
+gb-lerna repo --no-independent @sample/website
 gb-lerna package @sample/api
 gb-lerna package @sample/admin
-gb-lerna module personnel @sample/admin --kind functions
-gb-lerna module student @sample/admin --kind class
+gb-lerna module --kind functions personnel @sample/admin
+gb-lerna module --kind class student @sample/admin
 npm install
 lerna bootstrap
 lerna add @sample/api --scope @sample/website
@@ -38,7 +38,7 @@ gb-lerna package @sample/tools
 
 ## Commands
 
-### repo|repository [options] <initialPackage>
+### repo|repository [options] &lt;initialPackage>
 
 create a new monorepo with initial package
 
@@ -48,7 +48,7 @@ Options:
   -h, --help         display help for command
 ```
 
-### package [options] <name>
+### package [options] &lt;name>
 
 create a new package
 
@@ -57,7 +57,7 @@ Options:
   -h, --help  display help for command
 ```
 
-### module [options] <name> [scope]
+### module [options] &lt;name> [scope]
 
 create a new class or funtions module
 
