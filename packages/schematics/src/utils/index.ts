@@ -24,6 +24,12 @@ export interface IPackageJson {
   version?: string;
 }
 
+export interface ModuleInfo {
+  srcPath: string;
+  path: string;
+  name: string;
+}
+
 export interface PackageInfo {
   name: string;
   scope?: string;
@@ -45,6 +51,26 @@ export function getPackageInfo(input: string): PackageInfo {
 
   const name = strings.dasherize(input);
   return { name };
+}
+
+export function getModuleInfo(input: string): ModuleInfo {
+  const parts = input.split('/');
+  if (parts.length === 1) {
+    return { path: '', srcPath: '../src/', name: input };
+  } else {
+    const name = parts.pop() || '';
+    const srcPath = parts
+      .concat('')
+      .map(() => '..')
+      .concat('src')
+      .concat(parts.slice(0, parts.length), '')
+      .join('/');
+    return {
+      name,
+      path: parts.slice(0, parts.length).join('/'),
+      srcPath,
+    };
+  }
 }
 
 export function getFromJsonFile<T extends ILernaJson | IPackageJson>(

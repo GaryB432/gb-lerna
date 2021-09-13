@@ -39,7 +39,7 @@ function packageName(p: PackageInfo): string {
 export default function (options: IOptions): Rule {
   const packageInfo = getPackageInfo(options.name);
 
-  if (packageInfo.name.indexOf('/') > -1){
+  if (packageInfo.name.indexOf('/') > -1) {
     throw new Error('invalid package name');
   }
 
