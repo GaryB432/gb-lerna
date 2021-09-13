@@ -61,7 +61,7 @@ Options:
 
 create a new class or funtions module
 
-Optionally you can prepend a path to the name agument such as `path/to/name`.
+Optionally you can prepend a path to the name argument such as `path/to/name`.
 
 Use `--kind class` to create a JavaScript class and test. Use `--kind functions` (the default) to create a new module for exporting functions or values and a test for the module.
 
