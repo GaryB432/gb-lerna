@@ -4,15 +4,20 @@ describe('Utilities', () => {
   it('handles scope', () => {
     expect(getPackageInfo('@SomePackage/asdf')).toEqual({
       name: 'asdf',
+      packageName: '@some-package/asdf',
       scope: 'some-package',
     });
   });
   it('handles no scope', () => {
-    expect(getPackageInfo('asdf')).toEqual({ name: 'asdf' });
+    expect(getPackageInfo('asdf')).toEqual({
+      name: 'asdf',
+      packageName: 'asdf',
+    });
   });
   it('handles weirdness', () => {
     expect(getPackageInfo('NoAtSign/other/Stuff')).toEqual({
       name: 'no-at-sign/other/stuff',
+      packageName: 'no-at-sign/other/stuff',
     });
   });
 });

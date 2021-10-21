@@ -32,6 +32,7 @@ export interface ModuleInfo {
 
 export interface PackageInfo {
   name: string;
+  packageName: string;
   scope?: string;
 }
 
@@ -46,11 +47,12 @@ export function getPackageInfo(input: string): PackageInfo {
   if (parts.length === 2 && parts[0].startsWith('@')) {
     const scope = strings.dasherize(parts[0].slice(1));
     const pname = strings.dasherize(parts[1]);
-    return { name: pname, scope };
+    const packageName = `@${scope}/${pname}`;
+    return { name: pname, scope, packageName };
   }
 
   const name = strings.dasherize(input);
-  return { name };
+  return { name, packageName: name };
 }
 
 export function getModuleInfo(input: string): ModuleInfo {

@@ -21,11 +21,15 @@ describe('package', () => {
     expect(tree.files).toEqual([
       '/lerna.json',
       packageJsonPath,
+      '/packages/dasherized-package-name/README.md',
       '/packages/dasherized-package-name/tsconfig.json',
       '/packages/dasherized-package-name/src/index.ts',
       '/packages/dasherized-package-name/tests/index.spec.ts',
     ]);
 
+    expect(
+      tree.read('/packages/dasherized-package-name/README.md')?.toString()
+    ).toMatch(/^# @demo-scope\/dasherized-package-name\n/);
     expect(tree.read(packageJsonPath)?.toString()).toMatch(
       /"name": "@demo-scope\/dasherized-package-name".*"version": "1.2.3"/s
     );
