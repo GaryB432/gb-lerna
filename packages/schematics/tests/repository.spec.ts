@@ -18,18 +18,18 @@ describe('repository', () => {
 
     expect(tree.files).toEqual(
       expect.arrayContaining([
-        '/lerna.json',
-        '/.gitignore',
-        '/jest.config.js',
-        '/package.json',
-        '/README.md',
-        '/tsconfig.json',
-        '/.prettierrc',
         '/.eslintrc.js',
+        '/.gitignore',
+        '/.prettierrc',
+        '/README.md',
+        '/jest.config.js',
+        '/lerna.json',
+        '/package.json',
         '/packages/gb-lerna/package.json',
-        '/packages/gb-lerna/tsconfig.json',
         '/packages/gb-lerna/src/index.ts',
         '/packages/gb-lerna/tests/index.spec.ts',
+        '/packages/gb-lerna/tsconfig.json',
+        '/tsconfig.json',
       ])
     );
 
