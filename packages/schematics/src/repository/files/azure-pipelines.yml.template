@@ -1,0 +1,42 @@
+trigger:
+  - master
+
+jobs:
+  - job: build
+    displayName: 'Lerna CI'
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    steps:
+      - task: NodeTool@0
+        displayName: 'Install Node'
+        inputs:
+          versionSpec: '12.x'
+
+      - task: Npm@1
+        displayName: 'Install Packages'
+        inputs:
+          command: custom
+          customCommand: ci
+
+      - task: CmdLine@2
+        inputs:
+          script: 'npx lerna bootstrap --hoist'
+
+      - task: CmdLine@2
+        inputs:
+          script: 'npx jest --coverage'
+
+      - task: PublishTestResults@2
+        displayName: 'Publish Test Results'
+        condition: succeededOrFailed()
+        inputs:
+          testRunner: JUnit
+          testResultsFiles: 'junit.xml'
+          failTaskOnFailedTests: true
+
+      - task: PublishCodeCoverageResults@1
+        displayName: 'Publish Coverage'
+        inputs:
+          codeCoverageTool: Cobertura
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/cobertura-coverage.xml'

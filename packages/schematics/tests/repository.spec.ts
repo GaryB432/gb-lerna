@@ -22,6 +22,7 @@ describe('repository', () => {
         '/.gitignore',
         '/.prettierrc',
         '/README.md',
+        '/azure-pipelines.yml',
         '/jest.config.js',
         '/lerna.json',
         '/package.json',
