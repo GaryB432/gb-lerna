@@ -11,7 +11,7 @@ const lernaJson: ILernaJson = {
   version: 'N/A',
 };
 
-describe('functions module', () => {
+describe('values module', () => {
   test('tested', async () => {
     const st = Tree.empty();
     st.create('/lerna.json', JSON.stringify(lernaJson));
@@ -20,7 +20,7 @@ describe('functions module', () => {
       .runSchematicAsync<ModuleOptions>(
         'module',
         {
-          kind: 'functions',
+          kind: 'values',
           name: 'MyFunctions',
           packageName: '@DemoScope/DasherizedPackageName',
           test: true,
@@ -50,7 +50,7 @@ describe('functions module', () => {
       .runSchematicAsync<ModuleOptions>(
         'module',
         {
-          kind: 'functions',
+          kind: 'values',
           name: 'my-untested-functions',
           packageName: '@DemoScope/DasherizedPackageName',
         },
@@ -73,7 +73,7 @@ describe('functions module', () => {
   });
 });
 
-describe('functions module with path', () => {
+describe('values module with path', () => {
   test('tested', async () => {
     const st = Tree.empty();
     st.create('/lerna.json', JSON.stringify(lernaJson));
@@ -82,7 +82,7 @@ describe('functions module with path', () => {
       .runSchematicAsync<ModuleOptions>(
         'module',
         {
-          kind: 'functions',
+          kind: 'values',
           name: 'a/b/MyFunctions',
           packageName: '@DemoScope/DasherizedPackageName',
           test: true,
@@ -110,7 +110,7 @@ describe('functions module with path', () => {
         )
         ?.toString()
     ).toMatch(
-      /import { add, greet } from '..\/..\/..\/src\/a\/b\/my-functions';/s
+      /import { add, greet, meaning } from '..\/..\/..\/src\/a\/b\/my-functions';/s
     );
 
     // import \{ Klass \} from '\.\.\/\.\.\/\.\.\/src\/a\/b\/klass';
@@ -127,8 +127,8 @@ describe('functions module with path', () => {
       .runSchematicAsync<ModuleOptions>(
         'module',
         {
-          kind: 'functions',
-          name: 'a/b/my-untested-functions',
+          kind: 'values',
+          name: 'a/b/my-untested-values',
           packageName: '@DemoScope/DasherizedPackageName',
         },
         st
@@ -137,18 +137,14 @@ describe('functions module with path', () => {
 
     expect(tree.files).toEqual([
       '/lerna.json',
-      '/packages/dasherized-package-name/src/a/b/my-untested-functions.ts',
+      '/packages/dasherized-package-name/src/a/b/my-untested-values.ts',
     ]);
 
     expect(
       tree
-        .read(
-          '/packages/dasherized-package-name/src/a/b/my-untested-functions.ts'
-        )
+        .read('/packages/dasherized-package-name/src/a/b/my-untested-values.ts')
         ?.toString()
-    ).toMatch(
-      /{\s*return `my-untested-functions says: hello to \${name}`;\s*}/s
-    );
+    ).toMatch(/{\s*return `my-untested-values says: hello to \${name}`;\s*}/s);
   });
 });
 

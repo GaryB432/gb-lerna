@@ -35,11 +35,11 @@ cd your-app
 schematics gb-lerna/schematics:package @sample/tools
 ```
 
-## Add a class or functions module to your project
+## Add a class or values module to your project
 
 ```
 cd your-app
-schematics gb-lerna/schematics:module math @sample/tools --kind functions
+schematics gb-lerna/schematics:module math @sample/tools --kind values
 ```
 
 ## Schematics
@@ -48,13 +48,13 @@ schematics gb-lerna/schematics:module math @sample/tools --kind functions
 schematics gb-lerna/schematics: --list-schematics
 ```
 
-| schematic         | purpose                                         |
-| ----------------- | ----------------------------------------------- |
-| eslint            | add eslint to your project                      |
-| module            | add a new class or function module to a package |
-| package           | add a new package to your monorepo              |
-| prettier          | add prettier to your project                    |
-| repository (repo) | create a new monorepo project                   |
+| schematic         | purpose                                       |
+| ----------------- | --------------------------------------------- |
+| eslint            | add eslint to your project                    |
+| module            | add a new class or values module to a package |
+| package           | add a new package to your monorepo            |
+| prettier          | add prettier to your project                  |
+| repository (repo) | create a new monorepo project                 |
 
 ### See also
 
