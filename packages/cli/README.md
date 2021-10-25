@@ -20,7 +20,7 @@ git init
 gb-lerna repo --no-independent @sample/website
 gb-lerna package @sample/api
 gb-lerna package @sample/admin
-gb-lerna module --kind functions personnel @sample/admin
+gb-lerna module --kind values personnel @sample/admin
 gb-lerna module --kind class student @sample/admin
 npm install
 lerna bootstrap
@@ -63,11 +63,11 @@ create a new class or funtions module
 
 Optionally you can prepend a path to the name argument such as `path/to/name`.
 
-Use `--kind class` to create a JavaScript class and test. Use `--kind functions` (the default) to create a new module for exporting functions or values and a test for the module.
+Use `--kind class` to create a JavaScript class and test. Use `--kind values` (the default) to create a new module for exporting functions, objects or primitive values and a test for the module.
 
 ```
 Options:
-  -k, --kind <kind>  the kind of module (choices: "class", "functions")
+  -k, --kind <kind>  the kind of module (choices: "class", "values")
   --no-test          skip spec file
   -h, --help         display help for command
 ```
