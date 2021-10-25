@@ -23,7 +23,7 @@ function getProgramOptions(o: Partial<ProgramOptions>): ProgramOptions {
 }
 const program = new Command('gb-lerna');
 program
-  .version(require('../package.json').version)
+  .version((require('../package.json') as { version: string }).version)
   .option('-f, --force', 'use force on schematics')
   .option('-d, --dryRun', 'dry run only');
 
