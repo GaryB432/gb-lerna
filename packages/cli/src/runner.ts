@@ -3,6 +3,7 @@ import { createConsoleLogger } from '@angular-devkit/core/node';
 import { formats } from '@angular-devkit/schematics';
 import { WorkflowExecutionContext } from '@angular-devkit/schematics/src/workflow';
 import { NodeWorkflow } from '@angular-devkit/schematics/tools';
+import * as colors from 'colors/safe';
 import { Reporter } from './reporter';
 import { ModuleOptions, PackageOptions, RepoOptions } from './types';
 
@@ -38,6 +39,14 @@ export class Runner {
     });
   }
   public createModule(options: ModuleOptions): void {
+    if (options.kind === 'functions') {
+      this.logger.warn(
+        `${colors.yellow(
+          'WARNING'
+        )}: kind=functions is deprecated. Use kind=values instead`
+      );
+      options.kind = 'values';
+    }
     this.workflow
       .execute(this.getExecutionContext('module', options))
       .subscribe({
