@@ -23,12 +23,12 @@ export default function (): Rule {
 
     packageJson.devDependencies = {
       ...packageJson.devDependencies,
-      '@typescript-eslint/eslint-plugin': '^4.29.1',
-      '@typescript-eslint/parser': '^4.29.1',
-      eslint: '^7.32.0',
+      '@typescript-eslint/eslint-plugin': '^5.1.0',
+      '@typescript-eslint/parser': '^5.1.0',
+      eslint: '^8.1.0',
       'eslint-config-prettier': '^8.3.0',
-      'eslint-plugin-prettier': '^3.4.0',
-      'eslint-plugin-jest': '^24.4.0',
+      'eslint-plugin-prettier': '^4.0.0',
+      'eslint-plugin-jest': '^25.2.2',
     };
 
     packageJson.scripts = packageJson.scripts || {};

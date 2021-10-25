@@ -16,6 +16,7 @@ import {
 import minimatch = require('minimatch');
 import {
   getFromJsonFile,
+  getModuleInfo,
   getPackageInfo,
   ILernaJson,
   IPackageJson,
@@ -55,7 +56,10 @@ function getPackageNames(tree: Tree): string[] {
 }
 
 export default function (options: ModuleOptions): Rule {
-  const moduleName = options.name;
+  const info = getModuleInfo(options.name);
+  const { srcPath, path: modulePath, name: moduleName } = info;
+  // const modulePath = info.path;
+  // const moduleName = info.name;
   const kind = options.kind || 'functions';
 
   return (tree: Tree, context: SchematicContext) => {
@@ -64,10 +68,22 @@ export default function (options: ModuleOptions): Rule {
       options.packageName || packageNames[0] || 'package1'
     );
     const templatedSource = apply(url(`./files/${kind}/src`), [
-      applyTemplates({ ...packageInfo, ...strings, moduleName }),
+      applyTemplates({
+        ...packageInfo,
+        ...strings,
+        modulePath,
+        moduleName,
+        srcPath,
+      }),
     ]);
     const templatedTests = apply(url(`./files/${kind}/test`), [
-      applyTemplates({ ...packageInfo, ...strings, moduleName }),
+      applyTemplates({
+        ...packageInfo,
+        ...strings,
+        modulePath,
+        moduleName,
+        srcPath,
+      }),
     ]);
 
     return chain([

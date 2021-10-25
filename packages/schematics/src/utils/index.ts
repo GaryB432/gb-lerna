@@ -24,8 +24,16 @@ export interface IPackageJson {
   version?: string;
 }
 
-export interface PackageInfo {
+export interface ModuleInfo {
+  srcPath: string;
+  path: string;
   name: string;
+}
+
+export interface PackageInfo {
+  description: string;
+  name: string;
+  packageName: string;
   scope?: string;
 }
 
@@ -40,11 +48,33 @@ export function getPackageInfo(input: string): PackageInfo {
   if (parts.length === 2 && parts[0].startsWith('@')) {
     const scope = strings.dasherize(parts[0].slice(1));
     const pname = strings.dasherize(parts[1]);
-    return { name: pname, scope };
+    const packageName = `@${scope}/${pname}`;
+    const description = `${scope} ${pname}`;
+    return { description, name: pname, scope, packageName };
   }
 
   const name = strings.dasherize(input);
-  return { name };
+  return { description: name, name, packageName: name };
+}
+
+export function getModuleInfo(input: string): ModuleInfo {
+  const parts = input.split('/');
+  if (parts.length === 1) {
+    return { path: '', srcPath: '../src/', name: input };
+  } else {
+    const name = parts.pop() || '';
+    const srcPath = parts
+      .concat('')
+      .map(() => '..')
+      .concat('src')
+      .concat(parts.slice(0, parts.length), '')
+      .join('/');
+    return {
+      name,
+      path: parts.slice(0, parts.length).join('/'),
+      srcPath,
+    };
+  }
 }
 
 export function getFromJsonFile<T extends ILernaJson | IPackageJson>(

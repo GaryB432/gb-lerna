@@ -1,0 +1,19 @@
+# <%= packageName %>
+
+## Description
+
+A package named <%= packageName %>
+
+## Installation
+
+```
+npm install <%= packageName %>
+```
+
+## Usage
+
+TODO
+
+## Contributing
+
+TODO

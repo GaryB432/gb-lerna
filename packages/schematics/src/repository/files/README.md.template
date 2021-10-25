@@ -3,14 +3,16 @@
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-This monorepo contains my registry packages using 
+This monorepo contains my registry packages using
 
-* Lerna
-* Jest
-* eslint
-* Typescript
+- Lerna
+- Jest
+- eslint
+- Typescript
 
-You can make one yourself using the [`Schematics`](https://www.npmjs.com/package/@angular-devkit/schematics) [`collection`](https://www.npmjs.com/package/@gb-lerna/schematics). 
+This repository was generated with ❤️ by [gb-lerna](https://www.npmjs.com/package/@gb-lerna/cli) 🔥🔥🔥
+
+You can make one yourself using that package or the [Schematics](https://www.npmjs.com/package/@angular-devkit/schematics) [collection](https://www.npmjs.com/package/@gb-lerna/schematics).
 
 ## Packages (this may contain one day)
 

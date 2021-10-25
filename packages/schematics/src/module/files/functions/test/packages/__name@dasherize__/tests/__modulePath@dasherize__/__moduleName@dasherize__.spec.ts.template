@@ -1,4 +1,4 @@
-import { add, greet } from '../src/<%= dasherize(moduleName) %>';
+import { add, greet } from '<%= srcPath %><%= dasherize(moduleName) %>';
 
 describe('<%= moduleName %>', () => {
   test('adds', () => {

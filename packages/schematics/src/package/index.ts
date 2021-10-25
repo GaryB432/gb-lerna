@@ -11,12 +11,7 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
-import {
-  getFromJsonFile,
-  getPackageInfo,
-  IPackageJson,
-  PackageInfo,
-} from '../utils';
+import { getFromJsonFile, getPackageInfo, IPackageJson } from '../utils';
 
 interface IOptions {
   name: string;
@@ -32,26 +27,25 @@ function lernaPublishVersion(tree: Tree): string | undefined {
   return version === 'independent' ? '0.0.0' : version;
 }
 
-function packageName(p: PackageInfo): string {
-  return p.scope ? `@${p.scope}/${p.name}` : p.name;
-}
-
 export default function (options: IOptions): Rule {
   const packageInfo = getPackageInfo(options.name);
 
-  if (packageInfo.name.indexOf('/') > -1){
+  if (packageInfo.name.indexOf('/') > -1) {
     throw new Error('invalid package name');
   }
 
   const templatedSource = apply(url('./files'), [
-    applyTemplates({ ...packageInfo, ...strings }),
+    applyTemplates({
+      ...packageInfo,
+      ...strings,
+    }),
   ]);
 
   return (tree: Tree, context: SchematicContext) => {
     const packageJson: IPackageJson = {
-      name: packageName(packageInfo),
+      name: packageInfo.packageName,
       version: lernaPublishVersion(tree) || '0.0.0',
-      description: '',
+      description: packageInfo.description,
       private: false,
       devDependencies: {
         rimraf: '^3.0.2',
