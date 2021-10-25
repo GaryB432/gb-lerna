@@ -23,7 +23,7 @@ import {
 } from '../utils';
 
 export interface ModuleOptions {
-  kind?: 'class' | 'functions';
+  kind?: 'class' | 'values';
   name: string;
   packageName?: string;
   test?: boolean;
@@ -60,7 +60,7 @@ export default function (options: ModuleOptions): Rule {
   const { srcPath, path: modulePath, name: moduleName } = info;
   // const modulePath = info.path;
   // const moduleName = info.name;
-  const kind = options.kind || 'functions';
+  const kind = options.kind || 'values';
 
   return (tree: Tree, context: SchematicContext) => {
     const packageNames = getPackageNames(tree);
