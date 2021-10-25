@@ -31,6 +31,7 @@ export interface ModuleInfo {
 }
 
 export interface PackageInfo {
+  description: string;
   name: string;
   packageName: string;
   scope?: string;
@@ -48,11 +49,12 @@ export function getPackageInfo(input: string): PackageInfo {
     const scope = strings.dasherize(parts[0].slice(1));
     const pname = strings.dasherize(parts[1]);
     const packageName = `@${scope}/${pname}`;
-    return { name: pname, scope, packageName };
+    const description = `${scope} ${pname}`;
+    return { description, name: pname, scope, packageName };
   }
 
   const name = strings.dasherize(input);
-  return { name, packageName: name };
+  return { description: name, name, packageName: name };
 }
 
 export function getModuleInfo(input: string): ModuleInfo {

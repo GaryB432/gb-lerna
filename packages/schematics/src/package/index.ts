@@ -45,7 +45,7 @@ export default function (options: IOptions): Rule {
     const packageJson: IPackageJson = {
       name: packageInfo.packageName,
       version: lernaPublishVersion(tree) || '0.0.0',
-      description: '',
+      description: packageInfo.description,
       private: false,
       devDependencies: {
         rimraf: '^3.0.2',
