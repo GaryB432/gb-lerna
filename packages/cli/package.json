@@ -1,6 +1,6 @@
 {
   "name": "@gb-lerna/cli",
-  "version": "2.4.0",
+  "version": "2.5.0-alpha.0",
   "private": false,
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
   "dependencies": {
     "@angular-devkit/core": "^12.2.11",
     "@angular-devkit/schematics": "^12.2.11",
-    "@gb-lerna/schematics": "^2.4.0",
+    "@gb-lerna/schematics": "^2.5.0-alpha.0",
     "colors": "^1.4.0",
     "commander": "^8.3.0",
     "symbol-observable": "^4.0.0"
