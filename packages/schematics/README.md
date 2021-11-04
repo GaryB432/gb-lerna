@@ -16,7 +16,7 @@ npm install -g lerna @angular-devkit/schematics-cli @gb-lerna/schematics
 
 ## Create a new monorepo
 
-```
+```shell
 mkdir sample-project
 cd sample-project
 schematics @gb-lerna/schematics:repo --packageName @sample/website --no-independent

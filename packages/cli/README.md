@@ -13,11 +13,11 @@ npm install -g @gb-lerna/cli
 
 ## Create a new monorepo
 
-```properties
+```shell
 mkdir sample-project
 cd sample-project
 git init
-gb-lerna repo --no-independent @sample/website
+gb-lerna repo @sample/website
 gb-lerna package @sample/api
 gb-lerna package @sample/admin
 gb-lerna module --kind values personnel @sample/admin
@@ -31,7 +31,7 @@ npm test
 
 ## Add another package to your project
 
-```properties
+```shell
 cd your-app
 gb-lerna package @sample/tools
 ```
