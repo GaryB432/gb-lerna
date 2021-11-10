@@ -7,7 +7,6 @@ Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js
 
 ### Rather than using these schematics directly you might like to use the [gb-lerna cli](https://www.npmjs.com/package/@gb-lerna/cli).
 
-
 ## Installation
 
 ```

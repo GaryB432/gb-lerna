@@ -19,7 +19,7 @@
   "scripts": {
     "postbuild": "cpx src/{**/*.json,**/files/**/{*,.*/**,.??*}} lib",
     "prebuild": "rimraf lib",
-    "build": "tsc --pretty",
+    "build": "tsc",
     "prepare": "npm run build"
   },
   "repository": {
