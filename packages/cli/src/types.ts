@@ -13,3 +13,7 @@ export interface ModuleOptions {
   packageName: string;
   test: boolean;
 }
+
+export interface InfoOptions {
+  verbose: boolean;
+}

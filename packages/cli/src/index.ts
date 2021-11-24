@@ -4,7 +4,12 @@
 
 import { Command, Option } from 'commander';
 import { Runner } from './runner';
-import { ModuleOptions, PackageOptions, RepoOptions } from './types';
+import {
+  ModuleOptions,
+  PackageOptions,
+  RepoOptions,
+  InfoOptions,
+} from './types';
 
 export interface ProgramOptions {
   dryRun: boolean;
@@ -62,6 +67,14 @@ program
       packageName,
       test,
     });
+  });
+
+program
+  .command('info')
+  .description('print information about your lerna repo')
+  .option('-v, --verbose', 'verbose output')
+  .action((options: InfoOptions) => {
+    console.log(options);
   });
 
 // program
