@@ -5,6 +5,8 @@
 
 Some schematics for creating and maintaining a [Lerna monorepo](https://lerna.js.org/) with Typescript.
 
+### Rather than using these schematics directly you might like to use the [gb-lerna cli](https://www.npmjs.com/package/@gb-lerna/cli).
+
 ## Installation
 
 ```
@@ -13,7 +15,7 @@ npm install -g lerna @angular-devkit/schematics-cli @gb-lerna/schematics
 
 ## Create a new monorepo
 
-```
+```shell
 mkdir sample-project
 cd sample-project
 schematics @gb-lerna/schematics:repo --packageName @sample/website --no-independent

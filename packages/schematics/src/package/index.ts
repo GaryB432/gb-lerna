@@ -57,7 +57,7 @@ export default function (options: IOptions): Rule {
       main: 'lib/index.js',
       scripts: {
         prebuild: 'rimraf lib',
-        build: 'tsc --pretty',
+        build: 'tsc',
         prepare: 'npm run build',
       },
       typings: 'lib/index.d.ts',
