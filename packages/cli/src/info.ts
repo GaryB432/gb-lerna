@@ -42,7 +42,14 @@ export class Info {
 
 
 */
-    return [];
+
+    const q = [
+      `**${p.name}**`,
+      `[\`${p.name}\`](https://npmjs.com/package/${p.name})`,
+      `[![latest](https://img.shields.io/npm/v/${p.name}/latest.svg)](https://npmjs.com/package/${p.name})`,
+      `[![README](https://img.shields.io/badge/README--green.svg)](/packages/${p.name}/README.md)`,
+    ];
+    return q;
   }
 
   public async report(): Promise<string> {
