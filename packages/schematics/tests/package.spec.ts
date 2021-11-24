@@ -29,7 +29,7 @@ describe('package', () => {
 
     expect(
       tree.read('/packages/dasherized-package-name/README.md')?.toString()
-    ).toMatch(/^# @demo-scope\/dasherized-package-name\n/);
+    ).toMatch(/^# @demo-scope\/dasherized-package-name/);
     expect(tree.read(packageJsonPath)?.toString()).toMatch(
       /"name": "@demo-scope\/dasherized-package-name".*"version": "1.2.3"/s
     );
