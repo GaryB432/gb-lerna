@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires, @typescript-eslint/no-unsafe-member-access */
 
 import { Command, Option } from 'commander';
+import { Info } from './info';
 import { Runner } from './runner';
 import {
   ModuleOptions,
@@ -74,7 +75,10 @@ program
   .description('print information about your lerna repo')
   .option('-v, --verbose', 'verbose output')
   .action((options: InfoOptions) => {
-    console.log(options);
+    new Info(options)
+      .report()
+      .then((r) => console.log(r))
+      .catch((e) => console.log(e));
   });
 
 // program
