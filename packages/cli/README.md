@@ -72,6 +72,16 @@ Options:
   -h, --help         display help for command
 ```
 
+### info [options]
+
+print out a markdown table listing the packages in your monorepo.
+
+```
+Options:
+  -v, --verbose  verbose output
+  -h, --help     display help for command
+```
+
 ### [options] [command]
 
 ```
@@ -82,8 +92,9 @@ Options:
   -h, --help                       display help for command
 
 Commands:
-  repo [options] <initialPackage>  create a new monorepo with initial package
+  repo [options] [initialPackage]  create a new monorepo with initial package
   package <name>                   create a new package
   module [options] <name> [scope]  create a new class or module
+  info [options]                   print information about your lerna repo
   help [command]                   display help for command
 ```
