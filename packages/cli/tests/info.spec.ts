@@ -3,7 +3,7 @@ import { Info } from '../src/info';
 describe('Info', () => {
   let info: Info;
   beforeEach(() => {
-    info = new Info({ verbose: true });
+    info = new Info({ verbose: false });
   });
   test('exists', () => {
     expect(info).toBeDefined();
@@ -15,7 +15,7 @@ describe('Info', () => {
         name: 'tester',
         description: 'some description',
         version: '1',
-        private: true,
+        private: false,
       })
     ).toEqual([
       '**tester**',
