@@ -1,5 +1,5 @@
 import { readFile } from 'fs/promises';
-import { posix } from 'path';
+import { dirname, posix } from 'path';
 import { tablify } from './markdown';
 import { InfoOptions } from './types';
 import fg = require('fast-glob');
@@ -28,13 +28,15 @@ export class Info {
     }
   }
 
-  public liner(p: PackageConfig): string[] {
-    const { name } = p;
+  public liner(p: PackageInfo): string[] {
+    const { name } = p.config;
     return [
-      `**${name}**`,
+      `**${dirname(p.path)}**`,
       `[\`${name}\`](https://npmjs.com/package/${name})`,
       `[![latest](https://img.shields.io/npm/v/${name}/latest.svg)](https://npmjs.com/package/${name})`,
-      `[![README](https://img.shields.io/badge/README--green.svg)](/packages/${name}/README.md)`,
+      `[![README](https://img.shields.io/badge/README--green.svg)](/${dirname(
+        p.path
+      )}/README.md)`,
     ];
   }
 
@@ -48,21 +50,24 @@ export class Info {
         { dot: true }
       );
 
-      const buffs = await Promise.all(pjs.sort().map((p) => readFile(p)));
+      const pjpaths = await Promise.all(pjs.sort());
 
-      const ff = [
+      const infos = await Promise.all(
+        pjpaths.map(async (path: string): Promise<PackageInfo> => {
+          const buff = await readFile(path);
+          const config = JSON.parse(buff.toString()) as PackageConfig;
+          return { path, config };
+        })
+      );
+
+      return [
         '# readme packages',
         '',
         tablify(
           ['Project', 'Package', 'Version', 'Links'],
-          buffs
-            .map((buff) => JSON.parse(buff.toString()) as PackageConfig)
-            .filter((p) => !p.private)
-            .map((p) => this.liner(p))
+          infos.filter((p) => !p.config.private).map(this.liner)
         ),
-      ];
-
-      return ff.join('\n');
+      ].join('\n');
     } catch (e) {
       return 'unknown error';
     }

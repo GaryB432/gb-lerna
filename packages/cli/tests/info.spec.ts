@@ -12,10 +12,13 @@ describe('Info', () => {
   test('liner', () => {
     expect(
       info.liner({
-        name: 'tester',
-        description: 'some description',
-        version: '1',
-        private: false,
+        path: 'a/b/c/package.json',
+        config: {
+          name: 'tester',
+          description: 'some description',
+          version: '1',
+          private: false,
+        },
       })
     ).toEqual([
       '**tester**',
