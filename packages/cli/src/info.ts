@@ -28,7 +28,7 @@ export class Info {
     }
   }
 
-  public liner(p: PackageInfo): string[] {
+  public static liner(p: PackageInfo): string[] {
     const { name } = p.config;
     return [
       `**${dirname(p.path)}**`,
@@ -65,9 +65,7 @@ export class Info {
         '',
         tablify(
           ['Project', 'Package', 'Version', 'Links'],
-          infos
-            .filter((info) => !info.config.private)
-            .map((info) => this.liner(info))
+          infos.filter((info) => !info.config.private).map(Info.liner)
         ),
       ].join('\n');
     } catch (e) {

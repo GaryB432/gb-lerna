@@ -11,7 +11,7 @@ describe('Info', () => {
 
   test('liner', () => {
     expect(
-      info.liner({
+      Info.liner({
         path: 'packages/tester/package.json',
         config: {
           name: 'tester',
