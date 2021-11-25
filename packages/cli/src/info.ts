@@ -10,8 +10,8 @@ interface LernaConfig {
 }
 
 interface PackageInfo {
-  path: string;
   config: PackageConfig;
+  path: string;
 }
 
 interface PackageConfig {
@@ -65,7 +65,9 @@ export class Info {
         '',
         tablify(
           ['Project', 'Package', 'Version', 'Links'],
-          infos.filter((p) => !p.config.private).map(this.liner)
+          infos
+            .filter((info) => !info.config.private)
+            .map((info) => this.liner(info))
         ),
       ].join('\n');
     } catch (e) {

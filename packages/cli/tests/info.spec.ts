@@ -12,7 +12,7 @@ describe('Info', () => {
   test('liner', () => {
     expect(
       info.liner({
-        path: 'a/b/c/package.json',
+        path: 'packages/tester/package.json',
         config: {
           name: 'tester',
           description: 'some description',
@@ -21,7 +21,7 @@ describe('Info', () => {
         },
       })
     ).toEqual([
-      '**tester**',
+      '**packages/tester**',
       '[`tester`](https://npmjs.com/package/tester)',
       '[![latest](https://img.shields.io/npm/v/tester/latest.svg)](https://npmjs.com/package/tester)',
       '[![README](https://img.shields.io/badge/README--green.svg)](/packages/tester/README.md)',
