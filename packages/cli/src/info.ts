@@ -1,6 +1,8 @@
+import { createConsoleLogger } from '@angular-devkit/core/node';
 import { PathOrFileDescriptor, readFile as rf } from 'fs';
 import { dirname, posix } from 'path';
 import { tablify } from './markdown';
+import { Reporter } from './reporter';
 import { InfoOptions } from './types';
 import fg = require('fast-glob');
 
@@ -31,7 +33,14 @@ async function readFile(path: PathOrFileDescriptor): Promise<Buffer> {
 }
 
 export class Info {
+  private readonly logger = createConsoleLogger(
+    false,
+    process.stdout,
+    process.stderr
+  );
+  private readonly reporter: Reporter;
   public constructor(private options: InfoOptions) {
+    this.reporter = new Reporter(this.logger, false);
     if (this.options.verbose) {
       throw new Error('verbose is not yet supported');
     }
@@ -68,7 +77,7 @@ export class Info {
           return { path, config };
         })
       );
-
+      this.reporter.handleLifecycle({ kind: 'workflow-end' });
       return [
         '# readme packages',
         '',
@@ -78,7 +87,8 @@ export class Info {
         ),
       ].join('\n');
     } catch (e) {
-      return 'unknown error';
+      this.reporter.handleException(e as NodeJS.ErrnoException);
+      return '# NA';
     }
   }
 }
