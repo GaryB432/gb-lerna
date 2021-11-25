@@ -1,4 +1,4 @@
-import { readFile } from 'fs/promises';
+import { PathOrFileDescriptor, readFile as rf } from 'fs';
 import { dirname, posix } from 'path';
 import { tablify } from './markdown';
 import { InfoOptions } from './types';
@@ -19,6 +19,15 @@ interface PackageConfig {
   name: string;
   private: boolean;
   version: string;
+}
+
+async function readFile(path: PathOrFileDescriptor): Promise<Buffer> {
+  return new Promise((resolve, reject) => {
+    rf(path, (e, buff) => {
+      if (e) reject(e);
+      resolve(buff);
+    });
+  });
 }
 
 export class Info {
