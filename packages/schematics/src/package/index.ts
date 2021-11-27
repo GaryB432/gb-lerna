@@ -27,6 +27,19 @@ function lernaPublishVersion(tree: Tree): string | undefined {
   return version === 'independent' ? '0.0.0' : version;
 }
 
+function prettier(s: string, _options: unknown): string {
+  return `${s}\n// here we are`;
+}
+
+function formatRule(tree: Tree): void {
+  tree.visit((path, entry) => {
+    if (entry) {
+      tree.overwrite(path, prettier(entry.content.toString(), { tbd: true }));
+      console.log(path, ' format');
+    }
+  });
+}
+
 export default function (options: IOptions): Rule {
   const packageInfo = getPackageInfo(options.name);
 
@@ -39,6 +52,7 @@ export default function (options: IOptions): Rule {
       ...packageInfo,
       ...strings,
     }),
+    formatRule,
   ]);
 
   return (tree: Tree, context: SchematicContext) => {
