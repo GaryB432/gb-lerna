@@ -20,9 +20,9 @@ describe('package', () => {
     const packageJsonPath = '/packages/dasherized-package-name/package.json';
     expect(tree.files).toEqual([
       '/lerna.json',
-      packageJsonPath,
       '/packages/dasherized-package-name/README.md',
       '/packages/dasherized-package-name/tsconfig.json',
+      packageJsonPath,
       '/packages/dasherized-package-name/src/index.ts',
       '/packages/dasherized-package-name/tests/index.spec.ts',
     ]);

@@ -1,6 +1,8 @@
 import { strings } from '@angular-devkit/core';
 import { Tree } from '@angular-devkit/schematics';
 
+export * from './format';
+
 /* eslint-disable @typescript-eslint/member-ordering*/
 export interface IPackageJson {
   author?: string;
