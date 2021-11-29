@@ -8,9 +8,12 @@ import {
   mergeWith,
   Rule,
   SchematicContext,
+  source,
+  Source,
   Tree,
   url,
 } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import { getFromJsonFile, getPackageInfo, IPackageJson } from '../utils';
 
 interface IOptions {
@@ -27,17 +30,30 @@ function lernaPublishVersion(tree: Tree): string | undefined {
   return version === 'independent' ? '0.0.0' : version;
 }
 
-function prettier(s: string, _options: unknown): string {
-  return `${s}\n// here we are`;
+function prettier(s: string, _options: PrettierOptions): string {
+  return `${s}\n// here we are again`;
 }
 
-function formatRule(tree: Tree): void {
-  tree.visit((path, entry) => {
-    if (entry) {
-      tree.overwrite(path, prettier(entry.content.toString(), { tbd: true }));
-      console.log(path, ' format');
-    }
-  });
+interface PrettierOptions {
+  semi: boolean;
+}
+
+function getPrettierOptions(tree: Tree): PrettierOptions {
+  tree.visit((f) => console.log(f, 'xxd'));
+
+  return { semi: true };
+}
+
+function format(options: PrettierOptions): Rule {
+  console.log(options);
+  return (tree: Tree) => {
+    tree.visit((path, entry) => {
+      if (entry) {
+        console.log('format', path);
+        tree.overwrite(path, prettier(entry.content.toString(), options));
+      }
+    });
+  };
 }
 
 export default function (options: IOptions): Rule {
@@ -47,15 +63,14 @@ export default function (options: IOptions): Rule {
     throw new Error('invalid package name');
   }
 
-  const templatedSource = apply(url('./files'), [
-    applyTemplates({
-      ...packageInfo,
-      ...strings,
-    }),
-    formatRule,
-  ]);
-
   return (tree: Tree, context: SchematicContext) => {
+    const templatedSource = apply(url('./files'), [
+      applyTemplates({
+        ...packageInfo,
+        ...strings,
+      }),
+    ]);
+
     const packageJson: IPackageJson = {
       name: packageInfo.packageName,
       version: lernaPublishVersion(tree) || '0.0.0',
@@ -78,23 +93,41 @@ export default function (options: IOptions): Rule {
     };
 
     tree.create(
-      `./packages/${strings.dasherize(packageInfo.name)}/package.json`,
+      `/packages/${strings.dasherize(packageInfo.name)}/package.json`,
       JSON.stringify(packageJson, null, 2)
     );
 
-    return chain([
-      branchAndMerge(
-        chain([
-          mergeWith(templatedSource, MergeStrategy.Overwrite),
-          // schematic('module', {
-          //   packageName: options.name,
-          //   name: 'Greeter',
-          //   kind: 'class',
-          //   test: true,
-          // }),
-        ]),
-        MergeStrategy.AllowOverwriteConflict
+    return branchAndMerge(
+      mergeWith(
+        apply(templatedSource, [format(getPrettierOptions(tree))]),
+        MergeStrategy.Overwrite
       ),
-    ])(tree, context);
+      MergeStrategy.AllowOverwriteConflict
+    )(tree, context);
+
+    // return chain([
+    //   branchAndMerge(
+    //     chain([
+    //       mergeWith(
+    //         apply(templatedSource, [format(getPrettierOptions(tree))]),
+    //         MergeStrategy.Overwrite
+    //       ),
+    //       // schematic('module', {
+    //       //   packageName: options.name,
+    //       //   name: 'Greeter',
+    //       //   kind: 'class',
+    //       //   test: true,
+    //       // }),
+    //     ]),
+    //     MergeStrategy.AllowOverwriteConflict
+    //   ),
+    // ])(tree, context);
   };
 }
+
+// export function formatFiles(options: PrettierOptions): Rule {
+//   return () => {
+//     return format(options);
+//     // return chain([format(options)]);
+//   };
+// }
