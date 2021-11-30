@@ -1,4 +1,4 @@
-import { Rule, Tree } from '@angular-devkit/schematics';
+import { noop, Rule, Tree } from '@angular-devkit/schematics';
 import { format, Options } from 'prettier';
 
 export type PrettierOptions = Options;
@@ -16,6 +16,7 @@ export function getPrettierOptions(tree: Tree): PrettierOptions {
 }
 
 export function formatFiles(options: PrettierOptions): Rule {
+  return noop();
   return (tree: Tree): Tree => {
     tree.visit((path, entry) => {
       if (entry) {
