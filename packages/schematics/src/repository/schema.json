@@ -20,6 +20,12 @@
       "default": false,
       "alias": "i",
       "x-prompt": "Version packages independently?"
+    },
+    "skipInstall": {
+      "type": "boolean",
+      "description": "Skip package installation",
+      "default": false,
+      "x-prompt": "Skip package installation?"
     }
   }
 }

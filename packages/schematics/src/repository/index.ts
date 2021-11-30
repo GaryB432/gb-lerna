@@ -12,14 +12,18 @@ import {
   Tree,
   url,
 } from '@angular-devkit/schematics';
+import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import path = require('path');
+import { formatFiles, getPrettierOptions } from '../utils';
 
 export interface IOptions {
   independent?: boolean;
   packageName?: string;
+  skipInstall?: boolean;
 }
 
 export default function (options: IOptions): Rule {
+  options.skipInstall = true;
   const appname = path.basename(process.cwd());
   options.packageName = options.packageName || appname;
 
@@ -33,6 +37,9 @@ export default function (options: IOptions): Rule {
       version: options.independent ? 'independent' : '0.0.0',
     };
     tree.create('lerna.json', JSON.stringify(lernaJson, null, 2));
+    if (!options.skipInstall) {
+      context.addTask(new NodePackageInstallTask());
+    }
     return chain([
       branchAndMerge(
         chain([
@@ -40,6 +47,7 @@ export default function (options: IOptions): Rule {
           schematic('package', { name: options.packageName }),
           schematic('prettier', {}),
           schematic('eslint', {}),
+          formatFiles(getPrettierOptions(tree)),
         ]),
         MergeStrategy.AllowOverwriteConflict
       ),

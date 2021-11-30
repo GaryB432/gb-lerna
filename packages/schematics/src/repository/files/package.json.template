@@ -13,5 +13,8 @@
   "scripts": {
     "test": "jest"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "optionalDependencies": {
+    "fsevents": "^2.0.7"
+  }
 }

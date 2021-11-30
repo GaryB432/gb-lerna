@@ -22,5 +22,11 @@
     },
     "test": { "type": "boolean", "description": "include spec file" }
   },
+  "skipInstall": {
+    "type": "boolean",
+    "description": "Skip package installation",
+    "default": false,
+    "x-prompt": "Skip package installation?"
+  },
   "required": ["name"]
 }
