@@ -1,6 +1,7 @@
 export interface RepoOptions {
   independent: boolean;
   packageName: string;
+  skipInstall: boolean;
 }
 
 export interface PackageOptions {

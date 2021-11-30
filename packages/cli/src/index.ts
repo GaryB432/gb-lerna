@@ -38,6 +38,7 @@ program
   .alias('repository')
   .description('create a new monorepo with initial package')
   .option('-i, --independent', 'version packages independently')
+  .option('--skip-install', 'skip package install')
   .action((packageName: string, options: RepoOptions) => {
     options.packageName = packageName;
     createRunner(getProgramOptions(program.opts())).createRepository(options);
