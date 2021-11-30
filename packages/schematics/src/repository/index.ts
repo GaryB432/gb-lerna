@@ -14,6 +14,7 @@ import {
 } from '@angular-devkit/schematics';
 import { NodePackageInstallTask } from '@angular-devkit/schematics/tasks';
 import path = require('path');
+import { formatFiles, getPrettierOptions } from '../utils';
 
 export interface IOptions {
   independent?: boolean;
@@ -46,6 +47,7 @@ export default function (options: IOptions): Rule {
           schematic('package', { name: options.packageName }),
           schematic('prettier', {}),
           schematic('eslint', {}),
+          formatFiles(getPrettierOptions(tree)),
         ]),
         MergeStrategy.AllowOverwriteConflict
       ),
